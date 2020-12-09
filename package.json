@@ -1,19 +1,26 @@
 {
-  "name": "sshclientBot",
+  "name": "sshclientbot",
   "version": "0.0.0",
   "description": "trying ssh client bot",
   "main": "index.js",
   "author": "aldiwira<aldiwira.aw@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.6"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "knex": "^0.21.12",
     "moment": "^2.29.1",
+    "sqlite3": "^5.0.0",
     "telegraf": "^3.38.0"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "migrate": "npx knex migrate:up",
+    "seeds": "npx knex seed:run"
   }
 }
