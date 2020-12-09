@@ -1,5 +1,8 @@
-const config = require('../knexfile');
-const knex = require('knex')(config.development);
+/* eslint-disable arrow-body-style */
+/* eslint-disable import/order */
+const runenv = process.env.NODE_ENV;
+const config = require('../knexfile')[runenv];
+const knex = require('knex')(config);
 
 const tableName = { users: 'users', blacklist: 'blacklists' };
 
@@ -7,8 +10,8 @@ const cruder = {
   read: (table) => {
     return knex.select().from(table);
   },
-  create: (table, filter) => {
-    return knex(table).where(filter);
+  find: (table, filter) => {
+    return knex(table).where(filter).select();
   },
 };
 

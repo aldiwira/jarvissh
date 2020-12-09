@@ -1,4 +1,5 @@
-const { tableName, cruder, knex } = require('../db/db');
+/* eslint-disable no-console */
+const { tableName, cruder } = require('../db/db');
 
 const logger = async (ctx, next) => {
   const start = new Date();
@@ -10,8 +11,10 @@ const logger = async (ctx, next) => {
 
 const authUser = async (ctx, next) => {
   const ctxChatID = ctx.update.message.chat.id;
-  console.log(await knex.select().from('users'));
-  if (ctxChatID === 811295702) {
+  const usersFind = (
+    await cruder.find(tableName.users, { userId: ctxChatID })
+  )[0];
+  if (usersFind && ctxChatID === usersFind.userId) {
     await next();
   } else {
     ctx.reply('Anda tidak dapat melakukan layanan ini');
