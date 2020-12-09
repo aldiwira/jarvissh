@@ -1,6 +1,7 @@
 ### Remote Server Karo Chatbot
 
-Rename dulu .env.example ke .env.
+Rename dulu .env.example ke .env
+
 Sesuaikan isinya
 
 ### Petunjuk Migrasi sqlite3
@@ -12,6 +13,6 @@ Sesuaikan isinya
    ```
 2. Production
    ```bash
-   1.  npx knex migrate:up --env production
-   2.  npx knex seed:run --env production
+   npx knex migrate:up --env production
+   npx knex seed:run --env production
    ```
