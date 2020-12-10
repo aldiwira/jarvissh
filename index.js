@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const bot = new Telegraf(process.env.tokenBot);
 
-const { logger, authUser } = require('./middlewere');
+const { logger, authUser, checkCommand } = require('./middlewere');
 
 bot.use(session());
 bot.use(logger);
@@ -14,15 +14,16 @@ bot.start((ctx) => {
   ctx.reply('Hai');
 });
 
-bot.command('run', (ctx) => {
+bot.command('run', checkCommand, async (ctx) => {
   const msg = ctx.update.message.text;
   const msgl = msg.length;
   const out = msg.slice(5, msgl);
-
   if (out.length !== 0) {
-    exec(out, (error, stdout) => {
+    await exec(out, (error, stdout) => {
       ctx.reply(stdout);
     });
+  } else {
+    ctx.reply('Tidak ada command yang perlu dijalankan');
   }
 });
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const { tableName, cruder } = require('../db/db');
+const { tableName, cruder, knex } = require('../db/db');
 
 const logger = async (ctx, next) => {
   const start = new Date();
@@ -21,4 +21,22 @@ const authUser = async (ctx, next) => {
   }
 };
 
-module.exports = { logger, authUser };
+const checkCommand = async (ctx, next) => {
+  const msg = ctx.update.message.text;
+  const msgl = msg.length;
+  const sliceCommand = msg.slice(5, msgl);
+  const arrCommand = sliceCommand.split(' ');
+
+  const dst = await knex(tableName.blacklist).where(
+    'command',
+    'like',
+    arrCommand[0],
+  );
+  if (dst.length !== 0) {
+    ctx.reply('dibloker');
+  } else {
+    await next();
+  }
+};
+
+module.exports = { logger, authUser, checkCommand };
