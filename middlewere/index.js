@@ -10,7 +10,8 @@ const logger = async (ctx, next) => {
 };
 
 const authUser = async (ctx, next) => {
-  const ctxChatID = ctx.update.message.chat.id;
+  const ctxChatID = ctx.update.message.from.id;
+
   const usersFind = (
     await cruder.find(tableName.users, { userId: ctxChatID })
   )[0];
