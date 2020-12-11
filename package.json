@@ -1,6 +1,6 @@
 {
   "name": "sshclientbot",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "trying ssh client bot",
   "main": "index.js",
   "author": "aldiwira<aldiwira.aw@gmail.com>",
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "export NODE_ENV=production && node index.js",
-    "dev": "export NODE_ENV=development && nodemon index.js",
+    "dev": "export NODE_ENV=development && node index.js",
     "migrate": "npx knex migrate:up",
     "seeds": "npx knex seed:run"
   }
