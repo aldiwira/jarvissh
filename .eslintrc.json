@@ -11,6 +11,7 @@
   "rules": {
     "object-curly-newline": "warn",
     "comma-dangle": "warn",
-    "arrow-body-style": "warn"
+    "arrow-body-style": "warn",
+    "operator-linebreak": "warn"
   }
 }

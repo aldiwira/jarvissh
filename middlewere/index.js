@@ -6,26 +6,34 @@ const logger = async (ctx, next) => {
   await next();
   const ms = new Date() - start;
   console.log('Response time: %sms', ms);
-  console.log(ctx.update.message);
+  console.log(
+    process.env.NODE_ENV === 'development' ? ctx.update.message : null,
+  );
 };
 
 const authUser = async (ctx, next) => {
-  const ctxChatID = ctx.update.message.from.id;
+  const usrCtx = ctx.update.message.from;
 
   const usersFind = (
-    await cruder.find(tableName.users, { userId: ctxChatID })
+    await cruder.find(tableName.users, { userId: usrCtx.id })
   )[0];
-  if (usersFind && ctxChatID === usersFind.userId) {
-    await next();
+
+  if (usersFind && usrCtx.id === usersFind.userId) {
+    if (usersFind.isAdmin === 1) {
+      await next();
+    } else {
+      await ctx.reply('Anda masih tidak terdaftar / sedang di banned');
+    }
   } else {
-    ctx.reply('Anda tidak dapat melakukan layanan ini');
+    await ctx.reply(
+      `Dear ${usrCtx.first_name}, Mohon registrasi terlebih dahulu dengan dengan memasukkan command '/register'.\nAnda tidak dapat melakukan layanan ini`,
+    );
   }
 };
 
 const checkCommand = async (ctx, next) => {
   const msg = ctx.update.message.text;
-  const msgl = msg.length;
-  const sliceCommand = msg.slice(5, msgl);
+  const sliceCommand = msg.slice(5, msg.length);
   const arrCommand = sliceCommand.split(' ');
 
   const dst = await knex(tableName.blacklist).where(

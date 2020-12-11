@@ -11,7 +11,6 @@ const cruder = {
   insert: (table, datas) => knex(table).insert(datas),
   update: (table, filter, update) => knex(table).where(filter).update(update),
   delete: (table, filter) => knex(table).where(filter).del(),
-  findlike: (table, filter) => knex(table).where(filter),
 };
 
 module.exports = { knex, tableName, cruder };
