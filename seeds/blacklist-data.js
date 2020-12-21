@@ -9,7 +9,7 @@ exports.seed = function (knex) {
       return knex(tableName.blacklist).insert([
         { id: 1, command: 'rm' },
         { id: 2, command: 'shutdown' },
-        { id: 3, command: 'init 0' },
+        { id: 3, command: 'init' },
         { id: 4, command: 'ping' },
       ]);
     });

@@ -43,7 +43,6 @@ management.command('show', async (ctx) => {
     } else {
       msgs += 'Tidak ada pengakses server';
     }
-
     ctx.reply(msgs);
   } else if (command === listCmd[2]) {
     const blacklist = await cruder.read(tableName.blacklist);
@@ -56,7 +55,6 @@ management.command('show', async (ctx) => {
     } else {
       msgs += 'Tidak ada blacklist command';
     }
-
     ctx.reply(msgs);
   }
 });

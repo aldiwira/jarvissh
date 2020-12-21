@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const { tableName, cruder, knex } = require('../db/db');
+const messageTemp = require('../message.json');
 
 const logger = async (ctx, next) => {
   const start = new Date();
@@ -22,12 +23,10 @@ const authUser = async (ctx, next) => {
     if (usersFind.isAdmin === 1) {
       await next();
     } else {
-      await ctx.reply('Anda masih tidak terdaftar / sedang di banned');
+      await ctx.reply(messageTemp.failedRegister);
     }
   } else {
-    await ctx.reply(
-      `Dear ${usrCtx.first_name}, Mohon registrasi terlebih dahulu dengan dengan memasukkan command '/register'.\nAnda tidak dapat melakukan layanan ini`,
-    );
+    await ctx.reply(`Dear ${usrCtx.first_name}, ${messageTemp.notRegister}`);
   }
 };
 
@@ -42,7 +41,7 @@ const checkCommand = async (ctx, next) => {
     arrCommand[0],
   );
   if (dst.length !== 0) {
-    ctx.reply('dibloker');
+    ctx.reply(`Dear ${usrCtx.first_name}, ${messageTemp.blockedCommand}`);
   } else {
     await next();
   }

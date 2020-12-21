@@ -7,6 +7,7 @@ const bot = new Telegraf(process.env.tokenBot);
 const { logger, authUser, checkCommand } = require('./middlewere');
 const management = require('./stage/management');
 const { knex, cruder, tableName } = require('./db/db');
+const messageTemp = require('./message.json');
 
 bot.use(session());
 bot.use(logger);
@@ -22,22 +23,8 @@ bot.use(stage.middleware());
 bot.command('management', authUser, (ctx) => ctx.scene.enter('management'));
 
 // default
-bot.start(authUser, (ctx) => {
-  ctx.reply('Hai');
-});
-
-bot.command('run', authUser, checkCommand, async (ctx) => {
-  const msg = ctx.update.message.text;
-  const msgl = msg.length;
-  const out = msg.slice(5, msgl);
-  if (out.length !== 0) {
-    await exec(out, (error, stdout) => {
-      ctx.reply(stdout);
-    });
-  } else {
-    ctx.reply('Tidak ada command yang perlu dijalankan');
-  }
-});
+bot.start(authUser, (ctx) => ctx.reply(messageTemp.welcomeHome));
+bot.help(authUser, (ctx) => ctx.reply(messageTemp.welcomeHome));
 
 bot.command('register', async (ctx) => {
   const dataUser = ctx.update.message.from;
@@ -46,21 +33,22 @@ bot.command('register', async (ctx) => {
     userId: dataUser.id,
     isAdmin: 0,
   };
+
   const checkUsers = await knex(tableName.users).where(
     'userId',
     'like',
     reqData.userId,
   );
 
-  if (checkUsers.length === 0) {
+  if (checkUsers.length === 0 || checkUsers[0].isAdmin === 0) {
     await cruder.insert(tableName.users, reqData).then(() => {
-      ctx.reply(
-        `Dear ${dataUser.first_name}, Registrasi sudah berhasil.\ntunggu sampai sudah terverifikasi`,
-      );
+      ctx.reply(`Dear ${dataUser.first_name}, ${messageTemp.successRegister}`);
     });
   } else {
-    ctx.reply('No');
+    ctx.reply(`Dear ${dataUser.first_name}, ${messageTemp.failedRegister}`);
   }
 });
+
+require('./stage/server')(bot);
 
 bot.launch();

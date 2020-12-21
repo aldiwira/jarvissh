@@ -1,0 +1,9 @@
+{
+  "welcomeHome": "Selamat datang di BOT Remote Server \nList Command \n /register \t : Untuk register admin baru \n /run <command> \t : untuk menjalankan command \n /management \t : Untuk mengelola akses dan blacklist command \n\n Note : Jika mengalami gangguan masukkan command /start",
+  "successRegister": "Registrasi sudah berhasil.\ntunggu sampai akses anda terverifikasi",
+  "failedRegister": "Anda sudah melakukan registrasi",
+  "failedCommand": "Kata perintah yang anda masukkan salah",
+  "notRegister": "Mohon registrasi terlebih dahulu dengan memasukkan command '/register'.",
+  "processRegister": "Akses yang anda minta sedang diproses",
+  "blockedCommand": "Kata perintah yang anda masukkan tidak dapat dijalankan"
+}
