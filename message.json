@@ -5,5 +5,6 @@
   "failedCommand": "Kata perintah yang anda masukkan salah",
   "notRegister": "Mohon registrasi terlebih dahulu dengan memasukkan command '/register'.",
   "processRegister": "Akses yang anda minta sedang diproses",
-  "blockedCommand": "Kata perintah yang anda masukkan tidak dapat dijalankan"
+  "blockedCommand": "Kata perintah yang anda masukkan tidak dapat dijalankan",
+  "managementGretting": "Selamat datang di management akses bot \n /show user \t : Menampilkan user yang mendapatkan akses server \n /show request \t : Menampilkan permintaan akses ke bot \n /show blacklist \t : Menampilkan blacklist command \n /verify <request user id> \t : Untuk memverifikasi request pengakses bot \n /banned <user id> \t : untuk memblock user untuk mengakses bot \n /add blacklist <command> \t : Untuk menambahkan blacklist command \n /remove blacklist <id blacklist> \t : Untuk menghapus blaclist command \n /leave \t : Untuk keluar dari pengaturan management"
 }

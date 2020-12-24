@@ -2,13 +2,22 @@
 const { Stage } = require('telegraf');
 const Scenes = require('telegraf/scenes/base');
 const { cruder, tableName } = require('../db/db');
+const messageTemp = require('../message.json');
 
 const { leave } = Stage;
 
 const management = new Scenes('management');
 
 management.enter((ctx) => {
-  ctx.reply('Selamat datang admin di management akses');
+  ctx.reply(
+    `Dear ${ctx.update.message.from.first_name}, ${messageTemp.managementGretting}`,
+  );
+});
+
+management.help((ctx) => {
+  ctx.reply(
+    `Dear ${ctx.update.message.from.first_name}, ${messageTemp.managementGretting}`,
+  );
 });
 
 // untuk menampilkan data
@@ -144,10 +153,8 @@ management.command('remove', async (ctx) => {
     });
   }
 });
-
-management.command('leave', (ctx) => {
-  ctx.reply('Meninggalkan management stage');
-  leave();
-});
+// leave command handler
+management.leave((ctx) => ctx.reply('Good bye'));
+management.command('leave', leave());
 
 module.exports = management;

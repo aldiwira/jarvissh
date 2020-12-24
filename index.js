@@ -51,4 +51,4 @@ bot.command('register', async (ctx) => {
 // Server Execution Command Import
 require('./stage/server')(bot);
 
-bot.launch();
+bot.startPolling();
