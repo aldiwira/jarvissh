@@ -11,6 +11,8 @@ exports.seed = function (knex) {
         { id: 2, command: 'shutdown' },
         { id: 3, command: 'init' },
         { id: 4, command: 'ping' },
+        { id: 5, command: 'nano' },
+        { id: 6, command: 'pwd' },
       ]);
     });
 };

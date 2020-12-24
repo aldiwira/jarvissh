@@ -31,6 +31,7 @@ const authUser = async (ctx, next) => {
 };
 
 const checkCommand = async (ctx, next) => {
+  const usrCtx = ctx.update.message.from;
   const msg = ctx.update.message.text;
   const sliceCommand = msg.slice(5, msg.length);
   const arrCommand = sliceCommand.split(' ');

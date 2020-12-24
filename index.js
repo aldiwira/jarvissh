@@ -1,10 +1,9 @@
 const { Telegraf, session, Stage } = require('telegraf');
-const { exec } = require('child_process');
 require('dotenv').config();
 
 const bot = new Telegraf(process.env.tokenBot);
 
-const { logger, authUser, checkCommand } = require('./middlewere');
+const { logger, authUser } = require('./middlewere');
 const management = require('./stage/management');
 const { knex, cruder, tableName } = require('./db/db');
 const messageTemp = require('./message.json');
@@ -49,6 +48,7 @@ bot.command('register', async (ctx) => {
   }
 });
 
+// Server Execution Command Import
 require('./stage/server')(bot);
 
 bot.launch();

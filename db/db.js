@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-const runenv = process.env.NODE_ENV;
+const runenv = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 const config = require('../knexfile')[runenv];
 const knex = require('knex')(config);
 

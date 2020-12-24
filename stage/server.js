@@ -1,16 +1,14 @@
 const { exec } = require('child_process');
-const { stdout } = require('process');
 
 const { authUser, checkCommand } = require('../middlewere');
 const msgList = require('../message.json');
-const argsList = ['cpu', 'memory', 'os'];
 
-const optionsIsAvailable = (option) => {
-  return argsList.indexOf(option) > -1;
-};
+const argsList = ['cpu', 'memory', 'os', 'disk'];
+
+const optionsIsAvailable = (option) => argsList.includes(option);
 
 const runCommand = (ctx, command) => {
-  exec(command, (err, stdout, stderr) => {
+  exec(command, (err, stdout) => {
     ctx.reply(stdout);
     if (err) {
       ctx.reply(`Unknown command ${err.cmd}`);
@@ -25,6 +23,8 @@ const execCommand = (ctx, option) => {
     runCommand(ctx, 'bash ./lib/memory.sh');
   } else if (option === argsList[2]) {
     runCommand(ctx, 'bash ./lib/os-details.sh');
+  } else if (option === argsList[3]) {
+    runCommand(ctx, 'bash ./lib/disk-usage.sh');
   } else {
     ctx.reply('Not found');
   }
@@ -32,7 +32,7 @@ const execCommand = (ctx, option) => {
 
 module.exports = (bot) => {
   bot.command('check', (ctx) => {
-    const text = ctx.update.message.text;
+    const { text } = ctx.update.message;
     const args = text.split(' ');
     const options = args[1];
 
