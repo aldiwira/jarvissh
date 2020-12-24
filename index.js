@@ -1,4 +1,4 @@
-const { Telegraf, session, Stage } = require('telegraf');
+const { Telegraf, session, Stage, Markup } = require('telegraf');
 require('dotenv').config();
 
 const bot = new Telegraf(process.env.tokenBot);
@@ -7,7 +7,9 @@ const { logger, authUser } = require('./middlewere');
 const management = require('./stage/management');
 const { knex, cruder, tableName } = require('./db/db');
 const messageTemp = require('./message.json');
+const { serverMarkup } = require('./lib/markups');
 
+// Some Middleware
 bot.use(session());
 bot.use(logger);
 
@@ -22,8 +24,18 @@ bot.use(stage.middleware());
 bot.command('management', authUser, (ctx) => ctx.scene.enter('management'));
 
 // default
-bot.start(authUser, (ctx) => ctx.reply(messageTemp.welcomeHome));
-bot.help(authUser, (ctx) => ctx.reply(messageTemp.welcomeHome));
+
+bot.start(authUser, (ctx) => {
+  ctx.reply(messageTemp.welcomeHome, {
+    reply_markup: serverMarkup,
+  });
+});
+
+bot.help(authUser, (ctx) => {
+  ctx.reply(messageTemp.welcomeHome, {
+    reply_markup: serverMarkup,
+  });
+});
 
 bot.command('register', async (ctx) => {
   const dataUser = ctx.update.message.from;
@@ -51,4 +63,4 @@ bot.command('register', async (ctx) => {
 // Server Execution Command Import
 require('./stage/server')(bot);
 
-bot.startPolling();
+bot.launch();

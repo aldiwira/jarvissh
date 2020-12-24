@@ -52,4 +52,30 @@ module.exports = (bot) => {
       ctx.reply(msgList.failedCommand);
     }
   });
+
+  // Listener Actions
+  bot.action('os', async (ctx) => {
+    try {
+      await execCommand(ctx, argsList[2]);
+      await ctx.answerCbQuery();
+    } catch (error) {}
+  });
+  bot.action('disk', async (ctx) => {
+    try {
+      await execCommand(ctx, argsList[3]);
+      await ctx.answerCbQuery();
+    } catch (error) {}
+  });
+  bot.action('memory', async (ctx) => {
+    try {
+      await execCommand(ctx, argsList[1]);
+      await ctx.answerCbQuery();
+    } catch (error) {}
+  });
+  bot.action('cpu', async (ctx) => {
+    try {
+      await execCommand(ctx, argsList[0]);
+      await ctx.answerCbQuery();
+    } catch (error) {}
+  });
 };
