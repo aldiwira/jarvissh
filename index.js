@@ -1,4 +1,4 @@
-const { Telegraf, session, Stage, Markup } = require('telegraf');
+const { Telegraf, session, Stage } = require('telegraf');
 require('dotenv').config();
 
 const bot = new Telegraf(process.env.tokenBot);
@@ -25,13 +25,13 @@ bot.command('management', authUser, (ctx) => ctx.scene.enter('management'));
 
 // default
 
-bot.start(authUser, (ctx) => {
+bot.start((ctx) => {
   ctx.reply(messageTemp.welcomeHome, {
     reply_markup: serverMarkup,
   });
 });
 
-bot.help(authUser, (ctx) => {
+bot.help((ctx) => {
   ctx.reply(messageTemp.welcomeHome, {
     reply_markup: serverMarkup,
   });
@@ -63,4 +63,4 @@ bot.command('register', async (ctx) => {
 // Server Execution Command Import
 require('./stage/server')(bot);
 
-bot.launch();
+bot.startPolling();
