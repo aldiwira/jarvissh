@@ -1,3 +1,4 @@
+// this is stage management admin
 /* eslint-disable array-callback-return */
 const { Stage } = require('telegraf');
 const Scenes = require('telegraf/scenes/base');
@@ -29,7 +30,6 @@ management.command('show', async (ctx) => {
 
   const listCmd = ['user', 'request', 'blacklist'];
   let msgs = '';
-
   if (command === listCmd[0]) {
     const user = await cruder.find(tableName.users, { isAdmin: true });
     msgs += 'List admin \n';

@@ -1,5 +1,6 @@
 {
-  "welcomeHome": "Selamat datang di BOT Remote Server \nList Command \n /register \t : Untuk register admin baru \n /run <command> \t : untuk menjalankan command \n /management \t : Untuk mengelola akses dan blacklist command \n /check <os/cpu/memory/disk> \t : Untuk melakukan checking pada server \n\n Note : Jika mengalami gangguan masukkan command /start",
+  "welcomeLogin": "Selamat datang di BOT Remote Server\nSilahkan login dengan format /login <username> <password>.",
+  "welcomeHome": "Selamat datang di BOT Remote Server\nList Command \n /run <command> \t : untuk menjalankan command \n /management \t : Untuk mengelola akses dan blacklist command \n /check <os/cpu/memory/disk> \t : Untuk melakukan checking pada server \n\n Note : Jika mengalami gangguan masukkan command /start",
   "successRegister": "Registrasi sudah berhasil.\ntunggu sampai akses anda terverifikasi",
   "failedRegister": "Anda sudah melakukan registrasi",
   "failedCommand": "Kata perintah yang anda masukkan salah",

@@ -13,6 +13,8 @@
     "comma-dangle": "warn",
     "arrow-body-style": "warn",
     "operator-linebreak": "warn",
-    "no-empty": "warn"
+    "no-empty": "warn",
+    "quotes": "off",
+    "implicit-arrow-linebreak": "warn"
   }
 }

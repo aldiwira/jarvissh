@@ -1,3 +1,4 @@
+// server command exec
 const { exec } = require('child_process');
 
 const { authUser, checkCommand } = require('../middlewere');

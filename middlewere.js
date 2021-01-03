@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const { tableName, cruder, knex } = require('../db/db');
-const messageTemp = require('../message.json');
+const { tableName, cruder, knex } = require('./db/db');
+const messageTemp = require('./message.json');
 
 const logger = async (ctx, next) => {
   const start = new Date();
@@ -48,4 +48,19 @@ const checkCommand = async (ctx, next) => {
   }
 };
 
-module.exports = { logger, authUser, checkCommand };
+const checkTypeChat = async (ctx, next) => {
+  try {
+    const typeChat = ctx.update.message.chat.type;
+    if (typeChat === 'group') {
+      ctx.state.typeChat = 'group';
+    } else {
+      ctx.state.typeChat = 'personal';
+    }
+    next();
+  } catch (error) {
+    ctx.reply(error);
+    next();
+  }
+};
+
+module.exports = { logger, authUser, checkCommand, checkTypeChat };
