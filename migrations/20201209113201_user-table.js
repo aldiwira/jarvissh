@@ -4,8 +4,8 @@ exports.up = function (knex) {
     .createTable('users', (tbl) => {
       tbl.increments();
       tbl.string('username').notNullable();
-      tbl.integer('userId').notNullable();
-      tbl.boolean('isAdmin').notNullable();
+      tbl.string('password').notNullable();
+      tbl.date('last_login');
       tbl.timestamps(true, true);
     })
     .createTable('blacklists', (tbl) => {
