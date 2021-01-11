@@ -1,7 +1,7 @@
 // server command exec
 const { exec } = require('child_process');
 
-const { authUser, checkCommand } = require('../middlewere');
+const { checkCommand } = require('../middlewere');
 const msgList = require('../message.json');
 
 const argsList = ['cpu', 'memory', 'os', 'disk'];
@@ -44,7 +44,7 @@ module.exports = (bot) => {
     }
   });
 
-  bot.command('run', authUser, checkCommand, async (ctx) => {
+  bot.command('run', checkCommand, async (ctx) => {
     const msg = ctx.update.message.text;
     const args = msg.slice(5, msg.length);
     if (args) {
@@ -55,28 +55,12 @@ module.exports = (bot) => {
   });
 
   // Listener Actions
-  bot.action('os', async (ctx) => {
+  bot.action(['os', 'disk', 'memory', 'cpu'], async (ctx) => {
     try {
-      await execCommand(ctx, argsList[2]);
+      await execCommand(ctx, ctx.match);
       await ctx.answerCbQuery();
-    } catch (error) {}
-  });
-  bot.action('disk', async (ctx) => {
-    try {
-      await execCommand(ctx, argsList[3]);
-      await ctx.answerCbQuery();
-    } catch (error) {}
-  });
-  bot.action('memory', async (ctx) => {
-    try {
-      await execCommand(ctx, argsList[1]);
-      await ctx.answerCbQuery();
-    } catch (error) {}
-  });
-  bot.action('cpu', async (ctx) => {
-    try {
-      await execCommand(ctx, argsList[0]);
-      await ctx.answerCbQuery();
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(error);
+    }
   });
 };
