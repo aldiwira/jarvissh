@@ -49,18 +49,15 @@ const checkCommand = async (ctx, next) => {
 };
 
 const checkTypeChat = async (ctx, next) => {
-  try {
-    const typeChat = ctx.update.message.chat.type;
-    if (typeChat === 'group') {
-      ctx.state.typeChat = 'group';
-    } else {
-      ctx.state.typeChat = 'personal';
-    }
-    next();
-  } catch (error) {
-    ctx.reply(error);
-    next();
+  const typeChat = ctx.chat.type;
+  if (typeChat === 'supergroup') {
+    ctx.state.typeChat = 'group';
+  } else if (typeChat === 'group') {
+    ctx.reply('Pastikan Chatbot dijadikan administrator pada group');
+  } else {
+    ctx.state.typeChat = 'personal';
   }
+  next();
 };
 
 module.exports = { logger, authUser, checkCommand, checkTypeChat };
