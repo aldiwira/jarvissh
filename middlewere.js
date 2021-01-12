@@ -52,12 +52,18 @@ const checkTypeChat = async (ctx, next) => {
   const typeChat = ctx.chat.type;
   if (typeChat === 'supergroup') {
     ctx.state.typeChat = 'group';
+    next();
   } else if (typeChat === 'group') {
-    ctx.reply('Pastikan Chatbot dijadikan administrator pada group');
+    ctx.reply('PERHATIAN : Pastikan bot menjadi Administrator pada Group');
   } else {
     ctx.state.typeChat = 'personal';
+    next();
   }
-  next();
 };
 
-module.exports = { logger, authUser, checkCommand, checkTypeChat };
+module.exports = {
+  logger,
+  authUser,
+  checkCommand,
+  checkTypeChat,
+};
