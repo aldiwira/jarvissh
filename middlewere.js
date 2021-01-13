@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const { tableName, cruder, knex } = require('./db/db');
+const { tableName, knex } = require('./db/db');
 const messageTemp = require('./message.json');
 
 const logger = async (ctx, next) => {
@@ -10,24 +10,6 @@ const logger = async (ctx, next) => {
   console.log(
     process.env.NODE_ENV === 'development' ? ctx.update.message : null,
   );
-};
-
-const authUser = async (ctx, next) => {
-  const usrCtx = ctx.update.message.from;
-
-  const usersFind = (
-    await cruder.find(tableName.users, { userId: usrCtx.id })
-  )[0];
-
-  if (usersFind && usrCtx.id === usersFind.userId) {
-    if (usersFind.isAdmin === 1) {
-      await next();
-    } else {
-      await ctx.reply(messageTemp.failedRegister);
-    }
-  } else {
-    await ctx.reply(`Dear ${usrCtx.first_name}, ${messageTemp.notRegister}`);
-  }
 };
 
 const checkCommand = async (ctx, next) => {
@@ -48,7 +30,7 @@ const checkCommand = async (ctx, next) => {
   }
 };
 
-const checkTypeChat = async (ctx, next) => {
+const checkTypeChat = (ctx, next) => {
   const typeChat = ctx.chat.type;
   if (typeChat === 'supergroup') {
     ctx.state.typeChat = 'group';
@@ -63,7 +45,6 @@ const checkTypeChat = async (ctx, next) => {
 
 module.exports = {
   logger,
-  authUser,
   checkCommand,
   checkTypeChat,
 };

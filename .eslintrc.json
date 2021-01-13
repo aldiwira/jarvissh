@@ -15,6 +15,7 @@
     "operator-linebreak": "warn",
     "no-empty": "warn",
     "quotes": "off",
-    "implicit-arrow-linebreak": "warn"
+    "implicit-arrow-linebreak": "warn",
+    "no-unused-vars": "warn"
   }
 }
