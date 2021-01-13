@@ -5,6 +5,7 @@ exports.up = function (knex) {
       tbl.increments();
       tbl.string('username').notNullable();
       tbl.string('password').notNullable();
+      tbl.boolean('isAdmin').defaultTo(false);
       tbl.date('last_login');
       tbl.timestamps(true, true);
     })
