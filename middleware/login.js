@@ -21,14 +21,16 @@ module.exports = (bot) => {
     if (username && password) {
       cruder.find(tableName.users, { username }).then(async (value) => {
         if (password === value[0].password) {
-          await updateLastLogin({ username }, ctx).then((val) => {
-            if (val === 1) {
-              // store session data of user
-              // eslint-disable-next-line prefer-destructuring
-              ctx.session.users = value[0];
-              ctx.scene.enter('home');
-            }
-          });
+          await updateLastLogin({ id: value[0].id, username }, ctx).then(
+            (val) => {
+              if (val === 1) {
+                // store session data of user
+                // eslint-disable-next-line prefer-destructuring
+                ctx.session.users = value[0];
+                ctx.scene.enter('home');
+              }
+            },
+          );
         } else {
           await ctx.reply('Password salah');
         }
