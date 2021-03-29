@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const { tableName, knex } = require('./db/db');
-const messageTemp = require('./message.json');
+const { tableName, knex } = require('../db');
+const messageTemp = require('../message.json');
 
 const logger = async (ctx, next) => {
   const start = new Date();
@@ -10,6 +10,7 @@ const logger = async (ctx, next) => {
   console.log(
     process.env.NODE_ENV === 'development' ? ctx.update.message : null,
   );
+  console.log(ctx.session);
 };
 
 const checkCommand = async (ctx, next) => {

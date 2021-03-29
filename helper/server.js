@@ -1,7 +1,7 @@
 // server command exec
 const { exec } = require('child_process');
 
-const { checkCommand } = require('../middlewere');
+const { checkCommand } = require('../middleware');
 const msgList = require('../message.json');
 
 const argsList = ['cpu', 'memory', 'os', 'disk'];

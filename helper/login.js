@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const { cruder, tableName } = require('../db/db');
+const { cruder, tableName } = require('../db');
 
 const updateLastLogin = async (filter, ctx) =>
   cruder.update(tableName.users, filter, {
@@ -15,21 +15,23 @@ module.exports = (bot) => {
     const username = msg.split(' ')[1];
     const password = msg.split(' ')[2];
 
+    // delete login message first
+    await ctx.deleteMessage(ctx.message_id);
+
     if (username && password) {
       cruder.find(tableName.users, { username }).then(async (value) => {
         if (password === value[0].password) {
           await updateLastLogin({ username }, ctx).then((val) => {
             if (val === 1) {
-              ctx.reply(
-                `Selamat datang ${value[0].username} \nLast Login : ${value[0].last_login}`,
-              );
+              // store session data of user
+              // eslint-disable-next-line prefer-destructuring
+              ctx.session.users = value[0];
               ctx.scene.enter('home');
             }
           });
         } else {
           await ctx.reply('Password salah');
         }
-        await ctx.deleteMessage(ctx.message_id);
       });
     } else {
       ctx.reply(
