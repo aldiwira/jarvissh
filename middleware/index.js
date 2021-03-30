@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+const { Stage } = require('telegraf');
+
 const { tableName, knex } = require('../db');
 const messageTemp = require('../message.json');
 
@@ -44,8 +46,22 @@ const checkTypeChat = (ctx, next) => {
   }
 };
 
+const isLoginCheck = (ctx, next) => {
+  const { users } = ctx.session;
+  if (users !== null) {
+    ctx.state.isLogin = true;
+    next();
+  } else {
+    ctx.state.isLogin = false;
+    ctx.reply(`Untuk ${users.username}, Session anda sudah tidak berlaku`);
+    next();
+  }
+  console.log(ctx.state);
+};
+
 module.exports = {
   logger,
   checkCommand,
   checkTypeChat,
+  isLoginCheck,
 };

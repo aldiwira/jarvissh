@@ -1,6 +1,7 @@
 const moment = require('moment');
 
 const { cruder, tableName } = require('../db');
+const msgtemp = require('../message.json');
 
 const updateLastLogin = async (filter, ctx) =>
   cruder.update(tableName.users, filter, {
@@ -32,13 +33,11 @@ module.exports = (bot) => {
             },
           );
         } else {
-          await ctx.reply('Password salah');
+          await ctx.reply(msgtemp.loginPassWrong);
         }
       });
     } else {
-      ctx.reply(
-        'username / password belum anda masukkan, /login <username> <password>',
-      );
+      ctx.reply(msgtemp.loginFailed);
     }
   });
 };

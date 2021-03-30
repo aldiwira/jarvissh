@@ -4,7 +4,6 @@ const Scenes = require('telegraf/scenes/base');
 
 const messageTemp = require('../message.json');
 const { serverMarkup } = require('../lib/markups');
-const { cruder, tableName } = require('../db');
 
 const { leave } = Stage;
 
@@ -42,11 +41,19 @@ home.command('manage', async (ctx) => {
   }
 });
 
+// Login call
+home.command('login', async (ctx) => {
+  ctx.reply(
+    'Logout akun anda terlebih dahulu, jika ingin melakukan login dengan akun lain',
+  );
+});
+
 // logout
 home.leave(async (ctx) => {
   ctx.session.users = null;
   await ctx.reply('Good bye');
 });
+
 home.command('logout', leave());
 
 // Server Execution Command
