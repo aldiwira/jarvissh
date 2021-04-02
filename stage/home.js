@@ -1,5 +1,6 @@
 // this is stage home
 const { Stage } = require('telegraf');
+const Moment = require('moment');
 const Scenes = require('telegraf/scenes/base');
 
 const messageTemp = require('../message.json');
@@ -12,7 +13,9 @@ const home = new Scenes('home');
 const greetUsers = (ctx) => {
   const { users } = ctx.session;
   ctx.reply(
-    `Selamat datang ${users.username} \nLast Login : ${users.last_login}`,
+    `Selamat datang ${users.username} \nLast Login : ${
+      users.last_login === null ? Moment().format('LLLL') : users.last_login
+    }`,
   );
 };
 

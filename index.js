@@ -6,7 +6,6 @@ const croner = require('./helper/cron');
 const homeStage = require('./stage/home');
 const managementStage = require('./stage/management');
 const messageTemp = require('./message.json');
-const { knex, cruder, tableName } = require('./db');
 
 // instance telegram service
 const bot = new Telegraf(process.env.tokenBot);
@@ -28,7 +27,7 @@ bot.start((ctx) => ctx.reply(messageTemp.welcomeLogin));
 bot.help((ctx) => ctx.reply(messageTemp.welcomeLogin));
 
 // Login func
-require('./middleware/login')(bot);
+require('./stage/login')(bot);
 
 // scheduled process
 croner(telegram);
