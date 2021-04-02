@@ -1,5 +1,5 @@
 /* eslint-disable */
-const { tableName } = require('../db/db');
+const { tableName } = require('../db');
 exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex(tableName.blacklist)
