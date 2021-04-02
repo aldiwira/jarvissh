@@ -1,12 +1,16 @@
-const { Telegraf, session, Stage } = require('telegraf');
+const { Telegraf, session, Stage, Telegram } = require('telegraf');
 require('dotenv').config();
 
-const bot = new Telegraf(process.env.tokenBot);
-
 const { logger, checkTypeChat } = require('./middleware');
+const croner = require('./helper/cron');
 const homeStage = require('./stage/home');
 const managementStage = require('./stage/management');
 const messageTemp = require('./message.json');
+const { knex, cruder, tableName } = require('./db');
+
+// instance telegram service
+const bot = new Telegraf(process.env.tokenBot);
+const telegram = new Telegram(process.env.tokenBot);
 
 // Some Middleware
 bot.use(session({ makeKey: (ctx) => `${ctx.from.id}:${ctx.chat.id}` }));
@@ -26,4 +30,7 @@ bot.help((ctx) => ctx.reply(messageTemp.welcomeLogin));
 // Login func
 require('./middleware/login')(bot);
 
-bot.startPolling();
+// scheduled process
+croner(telegram);
+
+bot.launch();

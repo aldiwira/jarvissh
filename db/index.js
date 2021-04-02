@@ -3,7 +3,11 @@ const runenv = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 const config = require('../knexfile')[runenv];
 const knex = require('knex')(config);
 
-const tableName = { users: 'users', blacklist: 'blacklists' };
+const tableName = {
+  users: 'users',
+  blacklist: 'blacklists',
+  subscriber: 'subscribe',
+};
 
 const cruder = {
   read: (table) => knex.select().from(table),
