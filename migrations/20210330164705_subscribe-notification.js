@@ -3,8 +3,7 @@ exports.up = function (knex) {
   return knex.schema.createTable('subscribe', (t) => {
     t.increments('id').primary();
     t.string('username').notNullable();
-    t.string('user_id').notNullable();
-    t.boolean('isGroup').defaultTo('false');
+    t.string('telegram_id').notNullable();
     t.timestamps(true, true);
   });
 };

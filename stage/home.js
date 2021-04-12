@@ -5,6 +5,7 @@ const Scenes = require('telegraf/scenes/base');
 
 const messageTemp = require('../message.json');
 const { serverMarkup } = require('../lib/markups');
+const { cruder, tableName } = require('../db');
 
 const { leave } = Stage;
 
@@ -34,13 +35,46 @@ home.help(async (ctx) => {
   });
 });
 
-// TODO : Enter Management with state of chat type
 home.command('manage', async (ctx) => {
   const { users } = ctx.session;
   if (users.isAdmin) {
     ctx.scene.enter('management');
   } else {
     ctx.reply(`Untuk ${users.username}, Anda tidak diizinkan untuk masuk`);
+  }
+});
+
+// TODO : Add Subscribe for group or for personal
+const execSubs = async (ctx, datas) => {
+  console.log(datas);
+  const SubsCheck = await cruder.find(tableName.subscriber, datas);
+  if (SubsCheck.length === 0) {
+    await cruder.insert(tableName.subscriber, datas).then(() => {
+      ctx.reply(
+        `Terima kasih, ${datas.username} akan menerima notifikasi dari server setiap 30 Menit.`,
+      );
+    });
+  } else {
+    ctx.reply('Mohon maaf, anda sudah mengikuti bot pemberitahuan.');
+  }
+};
+
+home.command('subscribe', async (ctx) => {
+  const chatType = ctx.state.typeChat;
+  // because of different response of message context from group
+  // i split the subscribe flow
+  if (chatType.toLowerCase() === 'personal') {
+    const userId = {
+      username: ctx.chat.first_name,
+      telegram_id: ctx.chat.id,
+    };
+    await execSubs(ctx, userId);
+  } else if (chatType.toLowerCase() === 'group') {
+    const groupId = {
+      username: ctx.chat.title,
+      telegram_id: ctx.chat.id,
+    };
+    await execSubs(ctx, groupId);
   }
 });
 
@@ -53,7 +87,6 @@ home.command('login', async (ctx) => {
 
 // logout
 home.leave(async (ctx) => {
-  ctx.session.users = null;
   await ctx.reply('Good bye');
 });
 
