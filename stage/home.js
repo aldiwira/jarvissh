@@ -28,8 +28,13 @@ home.enter(async (ctx) => {
   });
 });
 
+home.start(async (ctx) => {
+  await ctx.reply(messageTemp.welcomeHome, {
+    reply_markup: serverMarkup,
+  });
+});
+
 home.help(async (ctx) => {
-  greetUsers(ctx);
   await ctx.reply(messageTemp.welcomeHome, {
     reply_markup: serverMarkup,
   });
@@ -46,7 +51,6 @@ home.command('manage', async (ctx) => {
 
 // TODO : Add Subscribe for group or for personal
 const execSubs = async (ctx, datas) => {
-  console.log(datas);
   const SubsCheck = await cruder.find(tableName.subscriber, datas);
   if (SubsCheck.length === 0) {
     await cruder.insert(tableName.subscriber, datas).then(() => {
@@ -66,13 +70,13 @@ home.command('subscribe', async (ctx) => {
   if (chatType.toLowerCase() === 'personal') {
     const userId = {
       username: ctx.chat.first_name,
-      telegram_id: ctx.chat.id,
+      telegram_id: ctx.chat.id.toString(),
     };
     await execSubs(ctx, userId);
   } else if (chatType.toLowerCase() === 'group') {
     const groupId = {
       username: ctx.chat.title,
-      telegram_id: ctx.chat.id,
+      telegram_id: ctx.chat.id.toString(),
     };
     await execSubs(ctx, groupId);
   }

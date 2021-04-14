@@ -34,7 +34,6 @@ management.command('adduser', async (ctx) => {
         username,
       );
       if (!usersDatas.length) {
-        // TODO : Hashing user password
         await cruder
           .insert(tableName.users, {
             username,
@@ -92,7 +91,6 @@ management.command('user', async (ctx) => {
   }
 });
 
-// TODO : Create Command for manage subscriber (half Complate)
 management.command('pengikut', async (ctx) => {
   const msg = ctx.update.message.text.split(' ');
   const command = msg[1];
@@ -123,7 +121,6 @@ management.command('pengikut', async (ctx) => {
     }
   }
 });
-// TODO : Create Command for manage blacklist command (Half Commplate)
 management.command('command', async (ctx) => {
   const msg = ctx.update.message.text.split(' ');
   const command = msg[1];
@@ -164,8 +161,6 @@ management.command('command', async (ctx) => {
     }
   }
 });
-
-// TODO : Add Subscribe this group with chat type state
 
 // leave command handler
 management.leave((ctx) => ctx.reply('Good bye'));

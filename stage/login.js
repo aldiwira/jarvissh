@@ -17,8 +17,8 @@ module.exports = (bot) => {
     const password = msg.split(' ')[2];
 
     // delete login message first
+    // TODO : add user id / username latest login
     await ctx.deleteMessage(ctx.message_id);
-
     if (username && password) {
       cruder.find(tableName.users, { username }).then(async (value) => {
         if (password === value[0].password) {
