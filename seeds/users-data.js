@@ -6,8 +6,13 @@ exports.seed = function (knex) {
     .del()
     .then(() => {
       return knex(tableName.users).insert([
-        { id: 1, username: 'aldi', password: 'aldi', isAdmin: true },
-        { id: 2, username: 'syehfi', password: 'syehfi', isAdmin: true },
+        {
+          id: 1,
+          username: 'aldi',
+          telegram_id: '1302685899',
+          isAdmin: true,
+          isAllowed: true,
+        },
       ]);
     });
 };

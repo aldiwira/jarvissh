@@ -1,7 +1,7 @@
 const { Telegraf, session, Stage, Telegram } = require('telegraf');
 require('dotenv').config();
 
-const { logger, checkTypeChat } = require('./middleware');
+const { logger } = require('./middleware');
 const croner = require('./helper/cron');
 const homeStage = require('./stage/home');
 const managementStage = require('./stage/management');
@@ -14,7 +14,6 @@ const telegram = new Telegram(process.env.tokenBot);
 // Some Middleware
 bot.use(session({ makeKey: (ctx) => `${ctx.from.id}:${ctx.chat.id}` }));
 bot.use(logger);
-bot.use(checkTypeChat);
 
 // instance stage
 const stage = new Stage([homeStage, managementStage]);

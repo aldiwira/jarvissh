@@ -8,7 +8,7 @@ exports.seed = async (knex) =>
         {
           id: 1,
           username: 'Aldi',
-          user_id: '1302685899',
+          telegram_id: '1302685899',
         },
       ]),
     );

@@ -49,7 +49,6 @@ home.command('manage', async (ctx) => {
   }
 });
 
-// TODO : Add Subscribe for group or for personal
 const execSubs = async (ctx, datas) => {
   const SubsCheck = await cruder.find(tableName.subscriber, datas);
   if (SubsCheck.length === 0) {

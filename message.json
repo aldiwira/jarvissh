@@ -6,7 +6,7 @@
   "successRegister": "Registrasi sudah berhasil.\ntunggu sampai akses anda terverifikasi",
   "failedRegister": "Anda sudah melakukan registrasi",
   "notRegister": "Mohon registrasi terlebih dahulu dengan memasukkan command '/register'.",
-  "processRegister": "Akses yang anda minta sedang diproses",
+  "processRegister": "Anda masih belum memiliki akses untuk menggunakan layanan ini.",
   "failedCommand": "Kata perintah yang anda masukkan salah",
   "blockedCommand": "Kata perintah yang anda masukkan tidak dapat dijalankan",
   "managementGretting": "Selamat datang di management akses bot \n s "
