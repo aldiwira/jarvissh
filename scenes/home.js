@@ -4,12 +4,13 @@ const Moment = require('moment');
 const Scenes = require('telegraf/scenes/base');
 
 const messageTemp = require('../message.json');
+const scenesID = require('../scenesID.json');
 const { serverMarkup } = require('../lib/markups');
 const { cruder, tableName } = require('../db');
 
 const { leave } = Stage;
 
-const home = new Scenes('home');
+const home = new Scenes(scenesID.home_scene);
 
 const greetUsers = (ctx) => {
   const { users } = ctx.session;
@@ -43,7 +44,7 @@ home.help(async (ctx) => {
 home.command('manage', async (ctx) => {
   const { users } = ctx.session;
   if (users.isAdmin) {
-    ctx.scene.enter('management');
+    ctx.scene.enter(scenesID.management_scene);
   } else {
     ctx.reply(`Untuk ${users.username}, Anda tidak diizinkan untuk masuk`);
   }

@@ -2,8 +2,10 @@ const moment = require('moment');
 
 const { cruder, tableName } = require('../db');
 const msgtemp = require('../message.json');
+const sceneID = require('../scenesID.json');
 
 const updateLastLogin = (filter, ctx) =>
+  // eslint-disable-next-line implicit-arrow-linebreak
   cruder.update(tableName.users, filter, {
     last_login: moment
       .unix(ctx.update.message.date)
@@ -21,7 +23,7 @@ module.exports = (bot) => {
         updateLastLogin({ telegram_id: ctx.from.id }, ctx);
         // eslint-disable-next-line prefer-destructuring
         ctx.session.users = checkAccount[0];
-        ctx.scene.enter('home');
+        ctx.scene.enter(sceneID.home_scene);
       } else {
         ctx.reply(`Hai ${ctx.from.first_name}, ${msgtemp.processRegister}`);
       }

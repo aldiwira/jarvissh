@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-const { Stage } = require('telegraf');
-
-const { tableName, knex, cruder } = require('../db');
+const { tableName, knex } = require('../db');
 const messageTemp = require('../message.json');
 
 const logger = async (ctx, next) => {
@@ -48,13 +46,8 @@ const checkTypeChat = (ctx, next) => {
   }
 };
 
-const senderCheck = async (ctx, next) => {
-  next();
-};
-
 module.exports = {
   logger,
   checkCommand,
   checkTypeChat,
-  senderCheck,
 };
