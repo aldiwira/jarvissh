@@ -6,6 +6,7 @@ const {
   ManageDelFollowerWizard,
   ManageAddBlockCommandWizard,
   ManageDelBlockCommandWizard,
+  execCommandWizard,
 } = require('./wizard');
 
 const ScenesLists = [
@@ -16,6 +17,7 @@ const ScenesLists = [
   ManageDelFollowerWizard,
   ManageDelBlockCommandWizard,
   ManageAddBlockCommandWizard,
+  execCommandWizard,
 ];
 
 module.exports = { ScenesLists };

@@ -7,6 +7,7 @@ const {
   ManageAddBlockCommandWizard,
   ManageDelBlockCommandWizard,
 } = require('./manageblockwizard');
+const { execCommandWizard } = require('./execcommandwizard');
 
 module.exports = {
   ManageAccsessUserWizard,
@@ -14,4 +15,5 @@ module.exports = {
   ManageDelFollowerWizard,
   ManageAddBlockCommandWizard,
   ManageDelBlockCommandWizard,
+  execCommandWizard,
 };

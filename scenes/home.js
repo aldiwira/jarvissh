@@ -22,24 +22,15 @@ const greetUsers = (ctx) => {
 };
 
 // For bot enter stage and re enter
-home.enter(async (ctx) => {
+const greetInit = async (ctx) => {
   greetUsers(ctx);
   await ctx.reply(messageTemp.welcomeHome, {
     reply_markup: serverMarkup,
   });
-});
-
-home.start(async (ctx) => {
-  await ctx.reply(messageTemp.welcomeHome, {
-    reply_markup: serverMarkup,
-  });
-});
-
-home.help(async (ctx) => {
-  await ctx.reply(messageTemp.welcomeHome, {
-    reply_markup: serverMarkup,
-  });
-});
+};
+home.enter(greetInit);
+home.start(greetInit);
+home.help(greetInit);
 
 home.command('manage', async (ctx) => {
   const { users } = ctx.session;
@@ -89,6 +80,11 @@ home.command('login', async (ctx) => {
   );
 });
 
+// Command execution
+home.command('exec', (ctx) => {
+  ctx.scene.enter(scenesID.command_execution_wizard);
+});
+
 // logout
 home.leave(async (ctx) => {
   await ctx.reply('Good bye');
@@ -97,6 +93,6 @@ home.leave(async (ctx) => {
 home.command('logout', leave());
 
 // Server Execution Command
-require('../helper/server')(home);
+// require('./server')(home);
 
 module.exports = home;

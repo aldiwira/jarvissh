@@ -5,5 +5,6 @@
   "management_access_user_wizard": "MANAGE_ACCSESS_USER_WIZARD",
   "management_del_follower_wizard": "MANAGE_DELETE_FOLLOWERS_WIZARD",
   "management_add_block_command_wizard": "MANAGE_ADD_BLOCK_COMMANDS_WIZARD",
-  "management_del_block_command_wizard": "MANAGE_DELETE_BLOCK_COMMAND_WIZARD"
+  "management_del_block_command_wizard": "MANAGE_DELETE_BLOCK_COMMAND_WIZARD",
+  "command_execution_wizard": "COMMAND_EXECUTION_WIZARD"
 }
