@@ -55,21 +55,29 @@ const execSubs = async (ctx, datas) => {
 };
 
 home.command('subscribe', async (ctx) => {
-  const chatType = ctx.state.typeChat;
   // because of different response of message context from group
   // i split the subscribe flow
-  if (chatType.toLowerCase() === 'personal') {
+  if (ctx.chat.type === 'private') {
     const userId = {
       username: ctx.chat.first_name,
       telegram_id: ctx.chat.id.toString(),
     };
     await execSubs(ctx, userId);
-  } else if (chatType.toLowerCase() === 'group') {
-    const groupId = {
-      username: ctx.chat.title,
-      telegram_id: ctx.chat.id.toString(),
-    };
-    await execSubs(ctx, groupId);
+  } else if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
+    const txtSplit = ctx.message.text.split(' ');
+    if (txtSplit.length > 1 && txtSplit[1] === 'me') {
+      const userId = {
+        username: ctx.from.first_name,
+        telegram_id: ctx.from.id.toString(),
+      };
+      await execSubs(ctx, userId);
+    } else {
+      const groupId = {
+        username: ctx.chat.title,
+        telegram_id: ctx.chat.id.toString(),
+      };
+      await execSubs(ctx, groupId);
+    }
   }
 });
 
