@@ -3,7 +3,7 @@
 const { Stage } = require('telegraf');
 const Scenes = require('telegraf/scenes/base');
 
-const { cruder, tableName, knex } = require('../db');
+const { cruder, tableName } = require('../db');
 const messageTemp = require('../message.json');
 const scenesID = require('../scenesID.json');
 
@@ -62,20 +62,10 @@ management.command('pengikut', async (ctx) => {
     });
     ctx.reply(replyMsg);
   } else if (command === 'hapus') {
-    const id = msg[2];
-    if (id) {
-      const sub = await cruder.find(tableName.subscriber, { id });
-      const delSub = await knex(tableName.subscriber).where('id', id).del();
-      if (delSub === 1) {
-        await ctx.reply(`Pengikut ${sub[0].username} berhasil dihapus`);
-      } else {
-        await ctx.reply(`Pengikut tidak dapat ditemukan`);
-      }
-    } else {
-      await ctx.reply('Masukkan username yang akan dihapus');
-    }
+    ctx.scene.enter(scenesID.management_del_follower_wizard);
   }
 });
+
 management.command('command', async (ctx) => {
   const msg = ctx.update.message.text.split(' ');
   const command = msg[1];
@@ -92,28 +82,9 @@ management.command('command', async (ctx) => {
     });
     ctx.reply(replyMsg);
   } else if (command === 'delete') {
-    const id = msg[2];
-    if (id) {
-      const sub = await cruder.find(tableName.blacklist, { id });
-      const delSub = await knex(tableName.blacklist).where('id', id).del();
-      if (delSub === 1) {
-        await ctx.reply(`Kata Perintah ${sub[0].command} berhasil dihapus`);
-      } else {
-        await ctx.reply(`Kata Perintah tidak dapat ditemukan`);
-      }
-    } else {
-      await ctx.reply('Masukkan username yang akan dihapus');
-    }
+    ctx.scene.enter(scenesID.management_del_block_command_wizard);
   } else if (command === 'add') {
-    const wordCommand = msg[2];
-    if (wordCommand) {
-      const commands = await cruder.find(tableName.blacklist, { wordCommand });
-      if (!commands.length) {
-        await cruder.insert(tableName.blacklist, { wordCommand }).then(() => {
-          ctx.reply(`Berhasil Memblokir kata perintah ${wordCommand}`);
-        });
-      }
-    }
+    ctx.scene.enter(scenesID.management_add_block_command_wizard);
   }
 });
 

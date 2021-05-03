@@ -40,7 +40,7 @@ const AccountChanger = async (filter, update) => {
   return false;
 };
 const doneMarkup = Markup.inlineKeyboard([
-  Markup.callbackButton('Home', 'done'),
+  Markup.callbackButton('Kembali', 'done'),
 ]).extra();
 
 const AccessHandler = new Composer();
@@ -87,7 +87,7 @@ AccessHandler.action(/access/, async (ctx) => {
 
 AccessHandler.action('done', async (ctx) => {
   await ctx.answerCbQuery();
-  return await ctx.wizard.next();
+  return await ctx.scene.enter(sceneID.management_scene);
 });
 
 const ManageAccsessUserWizard = new WizardScene(
@@ -128,79 +128,7 @@ const ManageAccsessUserWizard = new WizardScene(
     return await ctx.wizard.next();
   },
   AccessHandler,
-  async (ctx) => {
-    await ctx.reply('Done');
-    return await ctx.scene.enter(sceneID.management_scene);
-  },
 );
 // End: Wizard management for change account type
 
-// Start : Wizard management for delet subsciber
-
-const delSubsHandler = new Composer();
-delSubsHandler.action(/hapus/, async (ctx) => {
-  const queryData = ctx.callbackQuery.data;
-  const id = queryData.split(' ')[1];
-  await cruder.delete(tableName.subscriber.split, { id }).then((v) => {
-    if (v) {
-      ctx.reply(
-        `Berhasi menghapus pengikut`,
-        Markup.inlineKeyboard([
-          Markup.callbackButton('Kembali', 'back'),
-        ]).extra(),
-      );
-    }
-  });
-  await ctx.answerCbQuery();
-});
-
-delSubsHandler.action('back', async (ctx) => {
-  await ctx.answerCbQuery();
-  return await ctx.wizard.next();
-});
-
-const ManageDelFollowerWizard = new WizardScene(
-  sceneID.management_del_follower_wizard,
-  async (ctx) => {
-    await ctx.reply(
-      'Masukkan id pengikut notifikasi untuk menghapus pengikut?',
-    );
-    return await ctx.wizard.next();
-  },
-  async (ctx) => {
-    const subsID = ctx.message.text;
-    const subsCheck = await cruder.find(tableName.subscriber, {
-      id: subsID,
-    });
-    if (subsCheck) {
-      // TODO : add button markup
-      ctx.reply(
-        'User yang anda cari tidak ditemukan',
-        Markup.inlineKeyboard([
-          Markup.callbackButton('Kembali', 'back'),
-        ]).extra(),
-      );
-    }
-    const subsData = subsCheck[0];
-    ctx.reply(
-      `Apakah anda yakin ingin menghapus ${subsData.username} (${subsData.id})?`,
-      Markup.inlineKeyboard([
-        Markup.callbackButton('Hapus', `hapus ${subsData.id}`),
-        Markup.callbackButton('Kembali', `back`),
-      ]).extra(),
-    );
-  },
-  delSubsHandler,
-  async (ctx) => {
-    await ctx.reply('Done');
-    return await ctx.scene.enter(sceneID.management_scene);
-  },
-);
-
-// Start : Wizard management for delet subsciber
-
-module.exports = {
-  ManageDelUserWizard,
-  ManageAccsessUserWizard,
-  ManageDelFollowerWizard,
-};
+module.exports = { ManageAccsessUserWizard, ManageDelUserWizard };

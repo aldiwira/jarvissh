@@ -3,13 +3,19 @@ const ManageScene = require('./management');
 const {
   ManageAccsessUserWizard,
   ManageDelUserWizard,
-} = require('./wizard/ManageWizard');
+  ManageDelFollowerWizard,
+  ManageAddBlockCommandWizard,
+  ManageDelBlockCommandWizard,
+} = require('./wizard');
 
 const ScenesLists = [
   HomeScene,
   ManageScene,
   ManageAccsessUserWizard,
   ManageDelUserWizard,
+  ManageDelFollowerWizard,
+  ManageDelBlockCommandWizard,
+  ManageAddBlockCommandWizard,
 ];
 
 module.exports = { ScenesLists };
