@@ -23,7 +23,7 @@ const greetUsers = (ctx) => {
 
 // For bot enter stage and re enter
 const greetInit = async (ctx) => {
-  greetUsers(ctx);
+  await greetUsers(ctx);
   await ctx.reply(messageTemp.welcomeHome, {
     reply_markup: serverMarkup,
   });
@@ -101,6 +101,6 @@ home.leave(async (ctx) => {
 home.command('logout', leave());
 
 // Server Execution Command
-// require('./server')(home);
+require('./server')(home);
 
 module.exports = home;

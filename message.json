@@ -1,6 +1,6 @@
 {
   "welcomeLogin": "Selamat datang di BOT Remote Server\nSilahkan login dengan format /login <username> <password>.",
-  "welcomeHome": "Selamat datang di BOT Remote Server\nList Command \n /run <command> \t : untuk menjalankan command \n /manage \t : Untuk mengelola akses dan blacklist command \n /subscribe \t : Untuk mengikuti notifikasi status server di grup atau di personal chat \n /check <os/cpu/memory/disk> \t : Untuk melakukan checking pada server secara manual \n /logout \t : Untuk melakukan logout sistem \n\n Note : Jika mengalami gangguan masukkan command /start",
+  "welcomeHome": "Selamat datang di BOT Remote Server\nList Command \n /exec <command> \t : untuk menjalankan command \n /manage \t : Untuk mengelola akses dan blacklist command \n /subscribe \t : Untuk mengikuti notifikasi status server di grup atau di personal chat \n /check <os/cpu/memory/disk> \t : Untuk melakukan checking pada server secara manual \n /logout \t : Untuk melakukan logout sistem \n\n Note : Jika mengalami gangguan masukkan command /start",
   "loginFailed": "username / password belum anda masukkan, /login <username> <password>",
   "loginPassWrong": "Maaf, Username dan password anda salah",
   "successRegister": "Registrasi sudah berhasil.\nMohon tunggu sampai admin memberikan akses kepada anda",

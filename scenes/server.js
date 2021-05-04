@@ -44,16 +44,6 @@ module.exports = (bot) => {
     }
   });
 
-  bot.command('run', checkCommand, async (ctx) => {
-    const msg = ctx.update.message.text;
-    const args = msg.slice(5, msg.length);
-    if (args) {
-      runCommand(ctx, args);
-    } else {
-      ctx.reply(msgList.failedCommand);
-    }
-  });
-
   // Listener Actions
   bot.action(['os', 'disk', 'memory', 'cpu'], async (ctx) => {
     try {
