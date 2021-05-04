@@ -43,41 +43,64 @@ home.command('manage', async (ctx) => {
 
 const execSubs = async (ctx, datas) => {
   const SubsCheck = await cruder.find(tableName.subscriber, datas);
-  if (SubsCheck.length === 0) {
-    await cruder.insert(tableName.subscriber, datas).then(() => {
-      ctx.reply(
-        `Terima kasih, ${datas.username} akan menerima notifikasi dari server setiap 30 Menit.`,
-      );
-    });
-  } else {
-    ctx.reply('Mohon maaf, anda sudah mengikuti bot pemberitahuan.');
+  if (SubsCheck.length !== 0) {
+    return false;
   }
+  // eslint-disable-next-line no-return-await
+  return await cruder.insert(tableName.subscriber, datas);
 };
 
-home.command('subscribe', async (ctx) => {
-  // because of different response of message context from group
-  // i split the subscribe flow
+home.command('subscribe_group', async (ctx) => {
   if (ctx.chat.type === 'private') {
+    await ctx.reply(
+      'Mohon maaf, fitur ini hanya dapay digunakan di group saja',
+    );
+  } else if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
+    const groupId = {
+      username: ctx.chat.title,
+      telegram_id: ctx.chat.id.toString(),
+    };
+    await execSubs(ctx, groupId).then((v) => {
+      if (v) {
+        ctx.reply(
+          `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
+        );
+      } else {
+        ctx.reply(`Mohon maaf, Group sudah mengikuti bot pemberitahuan.`);
+      }
+    });
+  }
+});
+
+home.command('subscribe_me', async (ctx) => {
+  if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
+    const userId = {
+      username: ctx.from.first_name,
+      telegram_id: ctx.from.id.toString(),
+    };
+    await execSubs(ctx, userId).then((v) => {
+      if (v) {
+        ctx.reply(
+          `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
+        );
+      } else {
+        ctx.reply(`Mohon maaf, Group sudah mengikuti bot pemberitahuan.`);
+      }
+    });
+  } else if (ctx.chat.type === 'private') {
     const userId = {
       username: ctx.chat.first_name,
       telegram_id: ctx.chat.id.toString(),
     };
-    await execSubs(ctx, userId);
-  } else if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
-    const txtSplit = ctx.message.text.split(' ');
-    if (txtSplit.length > 1 && txtSplit[1] === 'me') {
-      const userId = {
-        username: ctx.from.first_name,
-        telegram_id: ctx.from.id.toString(),
-      };
-      await execSubs(ctx, userId);
-    } else {
-      const groupId = {
-        username: ctx.chat.title,
-        telegram_id: ctx.chat.id.toString(),
-      };
-      await execSubs(ctx, groupId);
-    }
+    await execSubs(ctx, userId).then((v) => {
+      if (v) {
+        ctx.reply(
+          `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
+        );
+      } else {
+        ctx.reply(`Mohon maaf, Anda sudah mengikuti bot pemberitahuan.`);
+      }
+    });
   }
 });
 
