@@ -2,7 +2,8 @@
 /* eslint-disable no-return-await */
 const WizardScene = require('telegraf/scenes/wizard');
 const { Composer, Markup } = require('telegraf');
-const { exec } = require('child_process');
+// const { exec } = require('child_process');
+const { exec } = require('shelljs');
 
 const { knex, tableName } = require('../../db');
 const sceneID = require('../../scenesID.json');
@@ -35,14 +36,15 @@ const execHandler = new Composer();
 execHandler.hears(/./g, checkCommand, async (ctx) => {
   const command = ctx.message.text;
   try {
-    await exec(command, (err, stdout) => {
+    await exec(`${command.toString()}`, (err, stdout) => {
       if (err) {
-        ctx.reply(`Unknown command ${err.cmd}`, mainMarkup);
+        ctx.reply(`Unknown command: \n ${err.message}`, mainMarkup);
+      } else {
+        ctx.reply(
+          `Input Command : \n${command}\nOutput Command : \n${stdout}`,
+          mainMarkup,
+        );
       }
-      ctx.reply(
-        `Input Command : \n${command}\nOutput Command : \n${stdout}`,
-        mainMarkup,
-      );
     });
   } catch (error) {
     await ctx.reply(error.message, mainMarkup);
@@ -67,8 +69,5 @@ const execCommandWizard = new WizardScene(
   },
   execHandler,
 );
-
-// iki mulai mang command tok seh,
-// maksude?
 
 module.exports = { execCommandWizard };

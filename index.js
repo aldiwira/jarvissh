@@ -3,10 +3,11 @@ const { Telegraf, session, Stage, Telegram } = require('telegraf');
 require('dotenv').config();
 
 const { logger } = require('./middleware');
+const { setCommands } = require('./helper/commandhooks');
 const croner = require('./helper/cron');
 const { ScenesLists } = require('./scenes');
 const messageTemp = require('./message.json');
-const { setCommands } = require('./helper/commandhooks');
+const scenesID = require('./scenesID.json');
 
 // instance telegram service
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -16,21 +17,15 @@ const telegram = new Telegram(process.env.BOT_TOKEN);
 bot.use(session({ makeKey: (ctx) => `${ctx.from.id}:${ctx.chat.id}` }));
 bot.use(logger);
 bot.use(async (ctx, next) => {
-  await ctx.reply('mid test');
-  await telegram.setMyCommands([
-    {
-      command: 'start',
-      description: 'Untuk memulai sesion bot',
-    },
-    {
-      command: 'login',
-      description: 'Untuk melakukan login dalam penggunaan bot',
-    },
-    {
-      command: 'register',
-      description: 'Untuk melakukan registrasi akun untuk penggunaan bot',
-    },
-  ]);
+  /* eslint-disable no-underscore-dangle */
+  const sceneName =
+    ctx.session.__scenes !== undefined ? ctx.session.__scenes.current : 'root';
+  await setCommands(ctx.telegram, sceneName);
+  next();
+});
+
+bot.catch((err, ctx, next) => {
+  ctx.reply(`Ooops, encountered an error for ${ctx.updateType}`, err.stack);
   next();
 });
 
@@ -41,8 +36,13 @@ const stage = new Stage(ScenesLists);
 bot.use(stage.middleware());
 
 // default
-bot.start((ctx) => ctx.reply(messageTemp.welcomeLogin));
+bot.start(async (ctx) => {
+  await setCommands(ctx.telegram, 'root');
+  await ctx.reply(messageTemp.welcomeLogin);
+});
 bot.help((ctx) => ctx.reply(messageTemp.welcomeLogin));
+
+bot.command('test', (ctx) => ctx.scene.enter(scenesID.check_server_wizard));
 
 // Login func
 require('./scenes/login')(bot);

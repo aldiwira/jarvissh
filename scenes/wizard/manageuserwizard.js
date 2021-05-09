@@ -102,7 +102,6 @@ const ManageAccsessUserWizard = new WizardScene(
       id: userID,
     });
     if (!checkUser) {
-      // TODO : add button markup
       ctx.reply(
         'User yang anda cari tidak ditemukan',
         Markup.inlineKeyboard([
@@ -121,7 +120,7 @@ const ManageAccsessUserWizard = new WizardScene(
           : [Markup.callbackButton('Jadikan Admin', `admin set ${userID}`)],
         userDatas.isAllowed === 1
           ? [Markup.callbackButton('Hapus akses', `access remove ${userID}`)]
-          : [Markup.callbackButton('Jadikan Admin', `access set ${userID}`)],
+          : [Markup.callbackButton('Berikan Akses', `access set ${userID}`)],
         [Markup.callbackButton('Kembali', 'done')],
       ]).extra(),
     );

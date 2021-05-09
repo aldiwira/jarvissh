@@ -7,6 +7,7 @@ const messageTemp = require('../message.json');
 const scenesID = require('../scenesID.json');
 const { serverMarkup } = require('../lib/markups');
 const { cruder, tableName } = require('../db');
+const { setCommands } = require('../helper/commandhooks');
 
 const { leave } = Stage;
 
@@ -27,6 +28,7 @@ const greetInit = async (ctx) => {
   await ctx.reply(messageTemp.welcomeHome, {
     reply_markup: serverMarkup,
   });
+  await setCommands(ctx.telegram, scenesID.home_scene);
 };
 home.enter(greetInit);
 home.start(greetInit);
@@ -115,6 +117,8 @@ home.command('login', async (ctx) => {
 home.command('exec', (ctx) => {
   ctx.scene.enter(scenesID.command_execution_wizard);
 });
+
+home.command('checking', (ctx) => {});
 
 // logout
 home.leave(async (ctx) => {

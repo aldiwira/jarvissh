@@ -20,19 +20,20 @@ module.exports = (bot) => {
     if (checkAccount.length !== 0) {
       const data = checkAccount[0];
       if (data.isAllowed) {
-        updateLastLogin({ telegram_id: ctx.from.id }, ctx);
+        await updateLastLogin({ telegram_id: ctx.from.id }, ctx);
         // eslint-disable-next-line prefer-destructuring
         ctx.session.users = checkAccount[0];
-        ctx.scene.enter(sceneID.home_scene);
+        await ctx.scene.enter(sceneID.home_scene);
       } else {
-        ctx.reply(`Hai ${ctx.from.first_name}, ${msgtemp.processRegister}`);
+        await ctx.reply(
+          `Hai ${ctx.from.first_name}, ${msgtemp.processRegister}`,
+        );
       }
     } else {
-      ctx.reply(`Hai ${ctx.from.first_name}, ${msgtemp.notRegister}`);
+      await ctx.reply(`Hai ${ctx.from.first_name}, ${msgtemp.notRegister}`);
     }
   });
 
-  // TODO : Registrasi account
   bot.command('register', async (ctx) => {
     const checkAccount = await checkAccounts({ telegram_id: ctx.from.id });
     if (checkAccount.length === 0) {

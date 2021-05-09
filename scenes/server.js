@@ -1,9 +1,6 @@
 // server command exec
 const { exec } = require('child_process');
 
-const { checkCommand } = require('../middleware');
-const msgList = require('../message.json');
-
 const argsList = ['cpu', 'memory', 'os', 'disk'];
 
 const optionsIsAvailable = (option) => argsList.includes(option);
@@ -32,6 +29,7 @@ const execCommand = (ctx, option) => {
 };
 
 module.exports = (bot) => {
+  // TODO : CHECK STAT SERVER MIGRATE TO WIZARD
   bot.command('check', (ctx) => {
     const { text } = ctx.update.message;
     const args = text.split(' ');
