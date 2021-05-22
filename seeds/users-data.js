@@ -13,6 +13,13 @@ exports.seed = function (knex) {
           isAdmin: true,
           isAllowed: true,
         },
+        {
+          id: 1,
+          username: 'syehfi',
+          telegram_id: '695246864',
+          isAdmin: true,
+          isAllowed: true,
+        },
       ]);
     });
 };

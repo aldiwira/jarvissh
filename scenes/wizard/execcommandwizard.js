@@ -33,10 +33,12 @@ const checkCommand = async (ctx, next) => {
 const execHandler = new Composer();
 
 // Again using regex anotion for hears input commands
+
 execHandler.hears(/./g, checkCommand, async (ctx) => {
   const command = ctx.message.text;
+
   try {
-    await exec(`${command.toString()}`, (err, stdout) => {
+    await exec(`${command.replace(/—/gi, '--')}`, (err, stdout) => {
       if (err) {
         ctx.reply(`Unknown command: \n ${err.message}`, mainMarkup);
       } else {
