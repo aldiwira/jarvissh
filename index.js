@@ -42,8 +42,6 @@ bot.start(async (ctx) => {
 });
 bot.help((ctx) => ctx.reply(messageTemp.welcomeLogin));
 
-bot.command('test', (ctx) => ctx.scene.enter(scenesID.check_server_wizard));
-
 // Login func
 require('./scenes/login')(bot);
 

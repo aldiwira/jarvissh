@@ -1,7 +1,7 @@
 {
   "name": "sshclientbot",
-  "version": "2.0.0",
-  "description": "trying ssh client bot",
+  "version": "3.5.0-sidang",
+  "description": "Project remote server with telegram messager",
   "main": "index.js",
   "author": "aldiwira<aldiwira.aw@gmail.com>",
   "license": "MIT",
