@@ -50,7 +50,7 @@
     },
     {
       "command": "users_accses",
-      "description": "Untuk mengatur aturan akses pengguna"
+      "description": "Untuk mengelola akses pengguna"
     },
     {
       "command": "followers_list",
@@ -71,6 +71,10 @@
     {
       "command": "blocked_delete",
       "description": "Untuk menghapus kata perintah"
+    },
+    {
+      "command": "leave",
+      "description": "Untuk keluar dari management stage"
     }
   ]
 }

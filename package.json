@@ -1,6 +1,6 @@
 {
   "name": "sshclientbot",
-  "version": "3.5.0-sidang",
+  "version": "3.6.0",
   "description": "Project remote server with telegram messager",
   "main": "index.js",
   "author": "aldiwira<aldiwira.aw@gmail.com>",

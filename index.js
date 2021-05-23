@@ -7,7 +7,6 @@ const { setCommands } = require('./helper/commandhooks');
 const croner = require('./helper/cron');
 const { ScenesLists } = require('./scenes');
 const messageTemp = require('./message.json');
-const scenesID = require('./scenesID.json');
 
 // instance telegram service
 const bot = new Telegraf(process.env.BOT_TOKEN);

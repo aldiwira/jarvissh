@@ -7,7 +7,6 @@ const {
   ManageAddBlockCommandWizard,
   ManageDelBlockCommandWizard,
   execCommandWizard,
-  checkServerWizard,
 } = require('./wizard');
 
 const ScenesLists = [
@@ -19,7 +18,6 @@ const ScenesLists = [
   ManageDelBlockCommandWizard,
   ManageAddBlockCommandWizard,
   execCommandWizard,
-  checkServerWizard,
 ];
 
 module.exports = { ScenesLists };
