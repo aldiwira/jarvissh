@@ -14,7 +14,7 @@ exports.seed = function (knex) {
           isAllowed: true,
         },
         {
-          id: 1,
+          id: 2,
           username: 'syehfi',
           telegram_id: '695246864',
           isAdmin: true,
