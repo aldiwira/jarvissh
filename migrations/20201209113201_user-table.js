@@ -3,8 +3,9 @@ exports.up = function (knex) {
   return knex.schema.createTable('users', (tbl) => {
     tbl.increments();
     tbl.string('username').notNullable();
-    tbl.string('password').notNullable();
+    tbl.string('telegram_id').notNullable();
     tbl.boolean('isAdmin').defaultTo(false);
+    tbl.boolean('isAllowed').defaultTo(false);
     tbl.date('last_login');
     tbl.timestamps(true, true);
   });

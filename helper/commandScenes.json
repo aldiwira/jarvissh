@@ -1,0 +1,76 @@
+{
+  "root_scenes": [
+    {
+      "command": "start",
+      "description": "Untuk memulai sesion bot"
+    },
+    {
+      "command": "login",
+      "description": "Untuk melakukan login dalam penggunaan bot"
+    },
+    {
+      "command": "register",
+      "description": "Untuk melakukan registrasi akun untuk penggunaan bot"
+    }
+  ],
+  "home_scenes": [
+    {
+      "command": "exec",
+      "description": "Untuk memasukkan kata perintah ke server"
+    },
+    {
+      "command": "check",
+      "description": "Untuk melakukan pemeriksaan keadaan server"
+    },
+    {
+      "command": "subscribe_group",
+      "description": "Untuk mengikuti pemberitahuan pada group"
+    },
+    {
+      "command": "subscribe_me",
+      "description": "untuk mengikuti pemberiahuan pada personal chat"
+    },
+    {
+      "command": "manage",
+      "description": "Untuk melakukan management bot (Hanya Admin)"
+    },
+    {
+      "command": "logout",
+      "description": "Untuk melakukan logout sistem"
+    }
+  ],
+  "manage_scene": [
+    {
+      "command": "users_list",
+      "description": "Untuk menampilkan pengguna"
+    },
+    {
+      "command": "users_delete",
+      "description": "Untuk menghapus pengguna"
+    },
+    {
+      "command": "users_accses",
+      "description": "Untuk mengatur aturan akses pengguna"
+    },
+    {
+      "command": "followers_list",
+      "description": "Untuk menampilkan pengikut notifikasi"
+    },
+    {
+      "command": "follower_delete",
+      "description": "Untuk menghapus pengikut notifikasi"
+    },
+    {
+      "command": "blocked_list",
+      "description": "Untuk menampilkan kata perintah yang tidak diizinkan"
+    },
+    {
+      "command": "blocked_add",
+      "description": "Untuk menambahkan kata perintah yang tidak diizinkan"
+    },
+    {
+      "command": "blocked_delete",
+      "description": "Untuk menghapus kata perintah"
+    }
+  ]
+}

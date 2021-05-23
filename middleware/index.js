@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-const { Stage } = require('telegraf');
-
 const { tableName, knex } = require('../db');
 const messageTemp = require('../message.json');
 
@@ -34,34 +32,22 @@ const checkCommand = async (ctx, next) => {
 };
 
 const checkTypeChat = (ctx, next) => {
-  const typeChat = ctx.chat.type;
-  if (typeChat === 'supergroup') {
-    ctx.state.typeChat = 'group';
-    next();
-  } else if (typeChat === 'group') {
-    ctx.reply('PERHATIAN : Pastikan bot menjadi Administrator pada Group');
-  } else {
-    ctx.state.typeChat = 'personal';
-    next();
+  if (ctx.chat) {
+    const { type } = ctx.chat;
+    if (type === 'supergroup') {
+      ctx.state.typeChat = 'group';
+      next();
+    } else if (type === 'group') {
+      ctx.reply('PERHATIAN : Pastikan bot menjadi Administrator pada Group');
+    } else {
+      ctx.state.typeChat = 'personal';
+      next();
+    }
   }
-};
-
-const isLoginCheck = (ctx, next) => {
-  const { users } = ctx.session;
-  if (users !== null) {
-    ctx.state.isLogin = true;
-    next();
-  } else {
-    ctx.state.isLogin = false;
-    ctx.reply(`Untuk ${users.username}, Session anda sudah tidak berlaku`);
-    next();
-  }
-  console.log(ctx.state);
 };
 
 module.exports = {
   logger,
   checkCommand,
   checkTypeChat,
-  isLoginCheck,
 };
