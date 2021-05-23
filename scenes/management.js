@@ -1,7 +1,6 @@
 /* eslint-disable function-paren-newline */
 // this is stage management admin
 /* eslint-disable array-callback-return */
-const { Stage } = require('telegraf');
 const Scenes = require('telegraf/scenes/base');
 
 const { cruder, tableName } = require('../db');
@@ -9,17 +8,21 @@ const messageTemp = require('../message.json');
 const scenesID = require('../scenesID.json');
 const { setCommands } = require('../helper/commandhooks');
 
-const { leave } = Stage;
-
 const management = new Scenes(scenesID.management_scene);
 
-management.enter(async (ctx) => {
+management.use((ctx, next) => {
   setCommands(ctx.telegram, scenesID.management_scene);
-  ctx.reply(
+  next();
+});
+
+management.enter(async (ctx) => {
+  await setCommands(ctx.telegram, scenesID.management_scene);
+  await ctx.reply(
     `Dear ${ctx.session.users.username}, ${messageTemp.managementGretting}`,
   );
 });
-management.help((ctx) => {
+management.help(async (ctx) => {
+  await setCommands(ctx.telegram, scenesID.management_scene);
   ctx.reply(
     `Dear ${ctx.session.users.username}, ${messageTemp.managementGretting}`,
   );
@@ -85,7 +88,10 @@ management.command('blocked_add', async (ctx) =>
 );
 
 // leave command handler
-management.leave((ctx) => ctx.reply('Good bye'));
-management.command('leave', leave());
+// management.leave((ctx) => ctx.reply('Good bye'));
+management.command('leave', async (ctx) => {
+  await ctx.reply('Terima Kasih');
+  await ctx.scene.enter(scenesID.home_scene);
+});
 
 module.exports = management;
