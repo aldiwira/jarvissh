@@ -1,6 +1,7 @@
 {
-  "welcomeLogin": "Selamat datang di BOT Remote Server\nSilahkan login dengan format /login <username> <password>.",
-  "welcomeHome": "Selamat datang di BOT Remote Server\nList Command \n /exec <command> \t : untuk menjalankan command \n /manage \t : Untuk mengelola akses dan blacklist command \n /subscribe \t : Untuk mengikuti notifikasi status server di grup atau di personal chat \n /check <os/cpu/memory/disk> \t : Untuk melakukan checking pada server secara manual \n /logout \t : Untuk melakukan logout sistem \n\n Note : Jika mengalami gangguan masukkan command /start",
+  "welcomeLogin": "Selamat datang di BOT Remote Server\nSilahkan login dengan command /login",
+  "welcomeHome": "Selamat datang di BOT Remote Server\nList Command \n /exec \t : untuk menjalankan command \n /manage \t : Untuk mengelola akses dan blacklist command \n /subscribe_me \t : Untuk mengikuti notifikasi status server di personal chat \n /subscribe_group \t : Untuk mengikuti notifikasi status server di grup chat \n /check <os/cpu/memory/disk> \t : Untuk melakukan checking pada server secara manual \n /logout \t : Untuk melakukan logout sistem \n\n Note : Jika mengalami gangguan masukkan command /start",
+  "managementGretting": "Selamat datang di management akses bot \n /users_list \t : untuk melihat daftar pengguna \n /users_delete \t : untuk menghapus pengguna \n /users_accses \t : untuk mengelola akses pengguna \n /followers_list \t : Untuk menampilkan pengikut notifikasi \n /follower_delete \t : Untuk menghapus pengikut notifikasi \n /blocked_list \t : Untuk menampilkan kata perintah yang tidak diizinkan \n /blocked_add \t : Untuk menambahkan kata perintah yang tidak diizinkan \n /blocked_delete \t : Untuk menghapus kata perintah \n /leave \t : Untuk keluar dari management stage",
   "loginFailed": "username / password belum anda masukkan, /login <username> <password>",
   "loginPassWrong": "Maaf, Username dan password anda salah",
   "successRegister": "Registrasi sudah berhasil.\nMohon tunggu sampai admin memberikan akses kepada anda",
@@ -11,6 +12,5 @@
   "notRegister": "Mohon registrasi terlebih dahulu dengan memasukkan command '/register'.",
   "processRegister": "Anda masih belum memiliki akses untuk menggunakan layanan ini.",
   "failedCommand": "Kata perintah yang anda masukkan salah",
-  "blockedCommand": "Kata perintah yang anda masukkan tidak dapat dijalankan",
-  "managementGretting": "Selamat datang di management akses bot \n s "
+  "blockedCommand": "Kata perintah yang anda masukkan tidak dapat dijalankan"
 }
