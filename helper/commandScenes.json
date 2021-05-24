@@ -31,6 +31,14 @@
       "description": "untuk mengikuti pemberiahuan pada personal chat"
     },
     {
+      "command": "unsubscribe_me",
+      "description": "untuk berhenti mengikuti pemberiahuan pada personal chat"
+    },
+    {
+      "command": "unsubscribe_group",
+      "description": "untuk berhenti mengikuti pemberiahuan pada group"
+    },
+    {
       "command": "manage",
       "description": "Untuk melakukan management bot (Hanya Admin)"
     },
