@@ -43,7 +43,7 @@ home.command('manage', async (ctx) => {
   }
 });
 
-const execSubs = async (ctx, datas) => {
+const execSubs = async (datas) => {
   const SubsCheck = await cruder.find(tableName.subscriber, datas);
   if (SubsCheck.length !== 0) {
     return false;
@@ -52,10 +52,21 @@ const execSubs = async (ctx, datas) => {
   return await cruder.insert(tableName.subscriber, datas);
 };
 
+// eslint-disable-next-line camelcase
+const execUnSubs = async (telegram_id) => {
+  const SubsCheck = await cruder.find(tableName.subscriber, { telegram_id });
+  if (SubsCheck.length !== 0) {
+    return false;
+  }
+
+  // eslint-disable-next-line no-return-await
+  return await cruder.delete(tableName.subscriber, { telegram_id });
+};
+
 home.command('subscribe_group', async (ctx) => {
   if (ctx.chat.type === 'private') {
     await ctx.reply(
-      'Mohon maaf, fitur ini hanya dapay digunakan di group saja',
+      'Mohon maaf, fitur ini hanya dapat digunakan pada group telegram saja',
     );
   } else if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
     const groupId = {
@@ -86,7 +97,7 @@ home.command('subscribe_me', async (ctx) => {
           `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
         );
       } else {
-        ctx.reply(`Mohon maaf, Group sudah mengikuti bot pemberitahuan.`);
+        ctx.reply(`Mohon maaf, Anda sudah mengikuti bot pemberitahuan.`);
       }
     });
   } else if (ctx.chat.type === 'private') {
@@ -101,6 +112,48 @@ home.command('subscribe_me', async (ctx) => {
         );
       } else {
         ctx.reply(`Mohon maaf, Anda sudah mengikuti bot pemberitahuan.`);
+      }
+    });
+  }
+});
+
+home.command('unsubscribe_me', async (ctx) => {
+  if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
+    await execUnSubs(ctx.from.id.toString()).then((v) => {
+      if (v) {
+        ctx.reply(
+          `${ctx.chat.first_name} sudah tidak menerima notifikasi dari server. Terima kasih`,
+        );
+      } else {
+        ctx.reply(`Mohon maaf, anda tidak mengikuti bot pemberitahuan.`);
+      }
+    });
+  } else if (ctx.chat.type === 'private') {
+    await execUnSubs(ctx.chat.id.toString()).then((v) => {
+      if (v) {
+        ctx.reply(
+          `${ctx.chat.first_name} sudah tidak menerima notifikasi dari server. Terima kasih`,
+        );
+      } else {
+        ctx.reply(`Mohon maaf, anda tidak mengikuti bot pemberitahuan.`);
+      }
+    });
+  }
+});
+
+home.command('unsubscribe_group', async (ctx) => {
+  if (ctx.chat.type === 'private') {
+    await ctx.reply(
+      'Mohon maaf, fitur ini hanya dapat digunakan di group saja',
+    );
+  } else if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
+    await execUnSubs(ctx.chat.id.toString()).then((v) => {
+      if (v) {
+        ctx.reply(
+          `${ctx.chat.title}, group ini sudah tidak menerima notifikasi dari server, terima kasih`,
+        );
+      } else {
+        ctx.reply(`Mohon maaf, Group tidak mengikuti bot pemberitahuan.`);
       }
     });
   }
