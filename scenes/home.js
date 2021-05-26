@@ -52,17 +52,6 @@ const execSubs = async (datas) => {
   return await cruder.insert(tableName.subscriber, datas);
 };
 
-// eslint-disable-next-line camelcase
-const execUnSubs = async (telegram_id) => {
-  const SubsCheck = await cruder.find(tableName.subscriber, { telegram_id });
-  if (SubsCheck.length !== 0) {
-    return false;
-  }
-
-  // eslint-disable-next-line no-return-await
-  return await cruder.delete(tableName.subscriber, { telegram_id });
-};
-
 home.command('subscribe_group', async (ctx) => {
   if (ctx.chat.type === 'private') {
     await ctx.reply(
@@ -73,7 +62,7 @@ home.command('subscribe_group', async (ctx) => {
       username: ctx.chat.title,
       telegram_id: ctx.chat.id.toString(),
     };
-    await execSubs(ctx, groupId).then((v) => {
+    await execSubs(groupId).then((v) => {
       if (v) {
         ctx.reply(
           `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
@@ -91,7 +80,7 @@ home.command('subscribe_me', async (ctx) => {
       username: ctx.from.first_name,
       telegram_id: ctx.from.id.toString(),
     };
-    await execSubs(ctx, userId).then((v) => {
+    await execSubs(userId).then((v) => {
       if (v) {
         ctx.reply(
           `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
@@ -105,7 +94,7 @@ home.command('subscribe_me', async (ctx) => {
       username: ctx.chat.first_name,
       telegram_id: ctx.chat.id.toString(),
     };
-    await execSubs(ctx, userId).then((v) => {
+    await execSubs(userId).then((v) => {
       if (v) {
         ctx.reply(
           `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
@@ -116,6 +105,16 @@ home.command('subscribe_me', async (ctx) => {
     });
   }
 });
+
+// eslint-disable-next-line camelcase
+const execUnSubs = async (telegram_id) => {
+  const SubsCheck = await cruder.find(tableName.subscriber, { telegram_id });
+  if (SubsCheck.length === 0) {
+    return false;
+  }
+  // eslint-disable-next-line no-return-await
+  return await cruder.delete(tableName.subscriber, { telegram_id });
+};
 
 home.command('unsubscribe_me', async (ctx) => {
   if (ctx.chat.type === 'group' || ctx.chat.type === 'supergroup') {
@@ -170,8 +169,6 @@ home.command('login', async (ctx) => {
 home.command('exec', (ctx) => {
   ctx.scene.enter(scenesID.command_execution_wizard);
 });
-
-home.command('checking', (ctx) => {});
 
 // logout
 home.leave(async (ctx) => {
