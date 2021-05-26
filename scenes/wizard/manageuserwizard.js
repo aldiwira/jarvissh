@@ -101,29 +101,31 @@ const ManageAccsessUserWizard = new WizardScene(
     const checkUser = await cruder.find(tableName.users, {
       id: userID,
     });
-    if (!checkUser) {
+    if (checkUser.length === 0) {
       ctx.reply(
         'User yang anda cari tidak ditemukan',
         Markup.inlineKeyboard([
           Markup.callbackButton('Kembali', 'done'),
         ]).extra(),
       );
+    } else {
+      const userDatas = checkUser[0];
+      const isAllowed = userDatas.isAllowed === 1 ? 'Punya' : 'Tidak';
+      const isAdmin = userDatas.isAdmin === 1 ? 'Punya' : 'Tidak';
+      await ctx.reply(
+        `Username : ${userDatas.username}\nPunya akses : ${isAllowed}\nAkses Admin BOT : ${isAdmin}\n`,
+        Markup.inlineKeyboard([
+          userDatas.isAdmin === 1
+            ? [Markup.callbackButton('Hapus admin', `admin remove ${userID}`)]
+            : [Markup.callbackButton('Jadikan Admin', `admin set ${userID}`)],
+          userDatas.isAllowed === 1
+            ? [Markup.callbackButton('Hapus akses', `access remove ${userID}`)]
+            : [Markup.callbackButton('Berikan Akses', `access set ${userID}`)],
+          [Markup.callbackButton('Kembali', 'done')],
+        ]).extra(),
+      );
     }
-    const userDatas = checkUser[0];
-    const isAllowed = userDatas.isAllowed === 1 ? 'Punya' : 'Tidak';
-    const isAdmin = userDatas.isAdmin === 1 ? 'Punya' : 'Tidak';
-    await ctx.reply(
-      `Username : ${userDatas.username}\nPunya akses : ${isAllowed}\nAkses Admin BOT : ${isAdmin}\n`,
-      Markup.inlineKeyboard([
-        userDatas.isAdmin === 1
-          ? [Markup.callbackButton('Hapus admin', `admin remove ${userID}`)]
-          : [Markup.callbackButton('Jadikan Admin', `admin set ${userID}`)],
-        userDatas.isAllowed === 1
-          ? [Markup.callbackButton('Hapus akses', `access remove ${userID}`)]
-          : [Markup.callbackButton('Berikan Akses', `access set ${userID}`)],
-        [Markup.callbackButton('Kembali', 'done')],
-      ]).extra(),
-    );
+
     return await ctx.wizard.next();
   },
   AccessHandler,

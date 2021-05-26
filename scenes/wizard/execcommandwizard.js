@@ -2,8 +2,8 @@
 /* eslint-disable no-return-await */
 const WizardScene = require('telegraf/scenes/wizard');
 const { Composer, Markup } = require('telegraf');
-// const { exec } = require('child_process');
-const { exec } = require('shelljs');
+const { exec } = require('child_process');
+const shelljs = require('shelljs');
 
 const { knex, tableName } = require('../../db');
 const sceneID = require('../../scenesID.json');
@@ -30,17 +30,11 @@ const checkCommand = async (ctx, next) => {
     });
 };
 
-const execHandler = new Composer();
-
-// Again using regex anotion for hears input commands
-
-execHandler.hears(/./g, checkCommand, async (ctx) => {
-  const command = ctx.message.text;
-
+const execCommand = async (ctx, command) => {
   try {
-    await exec(`${command.replace(/—/gi, '--')}`, (err, stdout) => {
-      if (err) {
-        ctx.reply(`Unknown command: \n ${err.message}`, mainMarkup);
+    await exec(`${command}`, { shell: true }, (stderr, stdout) => {
+      if (stderr) {
+        ctx.reply(`Unknown command: \n ${stderr.message}`, mainMarkup);
       } else {
         ctx.reply(
           `Input Command : \n${command}\nOutput Command : \n${stdout}`,
@@ -50,6 +44,29 @@ execHandler.hears(/./g, checkCommand, async (ctx) => {
     });
   } catch (error) {
     await ctx.reply(error.message, mainMarkup);
+  }
+};
+
+const execCd = async (ctx, command) => {
+  const split = String(command).split(' ');
+  const out = await shelljs.cd(split[1]).exec('ls ./').stdout;
+  ctx.reply(
+    `Input Command : \n${command}\nOutput Command : \n${out}`,
+    mainMarkup,
+  );
+};
+
+const execHandler = new Composer();
+
+// Again using regex anotion for hears input commands
+
+execHandler.hears(/./g, checkCommand, async (ctx) => {
+  const command = ctx.message.text;
+
+  if (command.match(/cd/gi)) {
+    await execCd(ctx, command);
+  } else {
+    await execCommand(ctx, command);
   }
 });
 

@@ -24,7 +24,7 @@ const execCommand = (ctx, option) => {
   } else if (option === argsList[3]) {
     runCommand(ctx, 'bash ./lib/disk-usage.sh');
   } else {
-    ctx.reply('Not found');
+    ctx.reply('command tidak diketahui');
   }
 };
 
@@ -38,7 +38,9 @@ module.exports = (bot) => {
     if (optionsIsAvailable(options)) {
       execCommand(ctx, options);
     } else {
-      ctx.reply('Not found');
+      ctx.reply(
+        'lengkapi command sepeti /check os/cpu/memory/disk (pilih salah satu, example : /check os)',
+      );
     }
   });
 

@@ -53,11 +53,11 @@
       "description": "Untuk menampilkan pengguna"
     },
     {
-      "command": "users_delete",
+      "command": "user_delete",
       "description": "Untuk menghapus pengguna"
     },
     {
-      "command": "users_accses",
+      "command": "user_accses",
       "description": "Untuk mengelola akses pengguna"
     },
     {
