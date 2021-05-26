@@ -15,18 +15,16 @@ management.use((ctx, next) => {
   next();
 });
 
-management.enter(async (ctx) => {
+const greeting = async (ctx) => {
   await setCommands(ctx.telegram, scenesID.management_scene);
   await ctx.reply(
     `Dear ${ctx.session.users.username}, ${messageTemp.managementGretting}`,
   );
-});
-management.help(async (ctx) => {
-  await setCommands(ctx.telegram, scenesID.management_scene);
-  ctx.reply(
-    `Dear ${ctx.session.users.username}, ${messageTemp.managementGretting}`,
-  );
-});
+};
+
+management.enter(greeting);
+management.start(greeting);
+management.help(greeting);
 
 management.command('users_list', async (ctx) => {
   let replyMsg = ``;

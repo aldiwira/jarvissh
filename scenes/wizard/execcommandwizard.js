@@ -17,9 +17,8 @@ const checkCommand = async (ctx, next) => {
   const command = ctx.message.text;
   await knex(tableName.blacklist)
     .where('command', 'like', `${command}`)
-    .limit(1)
     .then((v) => {
-      if (v[0]) {
+      if (v.length !== 0) {
         ctx.reply(
           `Perintah ${v[0].command} tidak dapat dijalankan karena terblokir`,
           mainMarkup,
