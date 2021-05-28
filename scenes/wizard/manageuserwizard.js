@@ -7,6 +7,32 @@ const { knex, cruder, tableName } = require('../../db');
 const sceneID = require('../../scenesID.json');
 
 // Start: Wizard management for deleter user
+
+const delUserHandler = new Composer();
+
+delUserHandler.action('done', async (ctx) => {
+  await ctx.answerCbQuery();
+  return await ctx.scene.enter(sceneID.management_scene);
+});
+
+delUserHandler.hears(/[0-9]/gi, async (ctx) => {
+  const { text } = ctx.message;
+  const checkUser = await cruder.find(tableName.users, { id: text });
+  if (checkUser.length !== 0) {
+    await knex(tableName.users)
+      .where('id', text)
+      .del()
+      .then(() => {
+        ctx.reply(
+          `Pengguna ${checkUser.username} berhasil dihapus`,
+          doneMarkup,
+        );
+      });
+  } else {
+    ctx.reply('User yang anda cari tidak ditemukan', doneMarkup);
+  }
+});
+
 const ManageDelUserWizard = new WizardScene(
   sceneID.management_del_user_wizard,
   async (ctx) => {
@@ -22,27 +48,10 @@ const ManageDelUserWizard = new WizardScene(
     });
     ctx.reply(replyMsg);
 
-    await ctx.reply('Masukkan id pengguna yang akan dihapus?');
+    await ctx.reply('Masukkan id pengguna yang akan dihapus?', doneMarkup);
     return ctx.wizard.next();
   },
-  async (ctx) => {
-    const { text } = ctx.message;
-    const checkUser = cruder.find(tableName.users, { id: text });
-
-    // Iki sek error di, lek id ne gak ono pancet mlebu nang if
-    // terus lek id ne ono bener iso hapus, mek username e undefined
-    if (checkUser) {
-      await knex(tableName.users)
-        .where('id', text)
-        .del()
-        .then(() => {
-          ctx.reply(`Pengguna ${checkUser.username} berhasil dihapus`);
-        });
-    } else {
-      ctx.reply('User yang anda cari tidak ditemukan');
-    }
-    return await ctx.wizard.next();
-  },
+  delUserHandler,
 );
 // End: Wizard management for deleter user
 

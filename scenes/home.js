@@ -171,11 +171,11 @@ home.command('exec', (ctx) => {
 });
 
 // logout
-home.leave(async (ctx) => {
-  await ctx.reply('Good bye');
-});
+// home.leave(async (ctx) => {
+//   await ctx.reply('Good bye');
+// });
 
-home.command('logout', leave());
+home.command('logout', (ctx) => {ctx.reply('Good Bye')});
 
 // Server Execution Command
 require('./server')(home);
