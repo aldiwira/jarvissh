@@ -41,7 +41,7 @@ management.command('users_list', async (ctx) => {
   ctx.reply(replyMsg);
 });
 management.command('user_delete', (ctx) =>
-  ctx.scene.enter(scenesID.management_access_user_wizard),
+  ctx.scene.enter(scenesID.management_del_user_wizard),
 );
 management.command('user_accses', (ctx) =>
   ctx.scene.enter(scenesID.management_access_user_wizard),

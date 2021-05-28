@@ -33,6 +33,17 @@ delSubsHandler.action('back', async (ctx) => {
 const ManageDelFollowerWizard = new WizardScene(
   sceneID.management_del_follower_wizard,
   async (ctx) => {
+    let replyMsg = ``;
+    replyMsg += `Daftar Pengikut Pesan Monitor Otomatis \n`;
+    replyMsg += `id \t username \n`;
+    replyMsg += `--------------------------\n`;
+    await cruder.read(tableName.subscriber).then((v) => {
+      v.map((val) => {
+        replyMsg += `${val.id}. \t ${val.username} \t \n`;
+      });
+    });
+    ctx.reply(replyMsg);
+
     await ctx.reply(
       'Masukkan id pengikut notifikasi untuk menghapus pengikut?',
     );

@@ -50,6 +50,17 @@ const ManageAddBlockCommandWizard = new WizardScene(
 const ManageDelBlockCommandWizard = new WizardScene(
   sceneID.management_del_block_command_wizard,
   async (ctx) => {
+    let replyMsg = ``;
+    replyMsg += `Daftar kata perintah terblokir \n`;
+    replyMsg += `id \t command \n`;
+    replyMsg += `--------------------------\n`;
+    await cruder.read(tableName.blacklist).then((v) => {
+      v.map((val) => {
+        replyMsg += `${val.id}. \t ${val.command} \t \n`;
+      });
+    });
+    ctx.reply(replyMsg);
+
     await ctx.reply('Masukkan kata perintah diblokir yang akan dihapus');
     return await ctx.wizard.next();
   },

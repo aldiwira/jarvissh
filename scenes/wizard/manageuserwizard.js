@@ -10,12 +10,27 @@ const sceneID = require('../../scenesID.json');
 const ManageDelUserWizard = new WizardScene(
   sceneID.management_del_user_wizard,
   async (ctx) => {
+    let replyMsg = ``;
+    replyMsg += `Daftar Pengguna \n`;
+    replyMsg += `id \t username \t Admin \t Akses \n`;
+    replyMsg += `--------------------------\n`;
+    await cruder.read(tableName.users).then((v) => {
+      v.map((val) => {
+        replyMsg += `${val.id}. \t ${val.username} \t ${val.isAdmin === 1 ? 'Admin' : 'Non Admin'
+          } \t ${val.isAllowed === 1 ? 'Punya' : 'Tidak'} \n`;
+      });
+    });
+    ctx.reply(replyMsg);
+
     await ctx.reply('Masukkan id pengguna yang akan dihapus?');
     return ctx.wizard.next();
   },
   async (ctx) => {
     const { text } = ctx.message;
     const checkUser = cruder.find(tableName.users, { id: text });
+
+    // Iki sek error di, lek id ne gak ono pancet mlebu nang if
+    // terus lek id ne ono bener iso hapus, mek username e undefined
     if (checkUser) {
       await knex(tableName.users)
         .where('id', text)
@@ -24,9 +39,9 @@ const ManageDelUserWizard = new WizardScene(
           ctx.reply(`Pengguna ${checkUser.username} berhasil dihapus`);
         });
     } else {
-      await ctx.reply('User yang anda cari tidak ditemukan');
+      ctx.reply('User yang anda cari tidak ditemukan');
     }
-    return await ctx.scene.leave();
+    return await ctx.wizard.next();
   },
 );
 // End: Wizard management for deleter user
@@ -93,6 +108,18 @@ AccessHandler.action('done', async (ctx) => {
 const ManageAccsessUserWizard = new WizardScene(
   sceneID.management_access_user_wizard,
   async (ctx) => {
+    let replyMsg = ``;
+    replyMsg += `Daftar Pengguna \n`;
+    replyMsg += `id \t username \t Admin \t Akses \n`;
+    replyMsg += `--------------------------\n`;
+    await cruder.read(tableName.users).then((v) => {
+      v.map((val) => {
+        replyMsg += `${val.id}. \t ${val.username} \t ${val.isAdmin === 1 ? 'Admin' : 'Non Admin'
+          } \t ${val.isAllowed === 1 ? 'Punya' : 'Tidak'} \n`;
+      });
+    });
+    ctx.reply(replyMsg);
+
     await ctx.reply('Masukkan id pengguna untuk mengatur akses');
     return await ctx.wizard.next();
   },
