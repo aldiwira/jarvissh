@@ -3,6 +3,7 @@ const moment = require('moment');
 const { cruder, tableName } = require('../db');
 const msgtemp = require('../message.json');
 const sceneID = require('../scenesID.json');
+const { sayGreetings } = require('../helper/greetings');
 
 const updateLastLogin = (filter, ctx) =>
   // eslint-disable-next-line implicit-arrow-linebreak
@@ -34,6 +35,23 @@ module.exports = (bot) => {
     }
   });
 
+  const notifAdmin = async (ctx, idClient) => {
+    await cruder
+      .find(tableName.users, { isAdmin: true, isAllowed: true })
+      .then((v) => {
+        if (v.length !== 0) {
+          v.map(async (item) => {
+            await ctx.telegram.sendMessage(
+              item.telegram_id,
+              `${sayGreetings()} ${item.username}, Pengguna ${
+                ctx.from.first_name
+              } sudah melakukan registrasi akses chatbot, segera check di management dan konfirmasi ya. User ID : ${idClient}`,
+            );
+          });
+        }
+      });
+  };
+
   bot.command('register', async (ctx) => {
     const checkAccount = await checkAccounts({ telegram_id: ctx.from.id });
     if (checkAccount.length === 0) {
@@ -48,12 +66,14 @@ module.exports = (bot) => {
         ctx.reply(
           `Selamat datang ${ctx.from.first_name}, ${msgtemp.successRegister}. ${val}`,
         );
+        notifAdmin(ctx, val);
       });
     } else {
       const stat = checkAccount[0].isAllowed
         ? msgtemp.accountAllowed
         : msgtemp.accountNotAllowed;
       ctx.reply(`${ctx.from.first_name}, ${msgtemp.alreadyRegister}, ${stat}`);
+      notifAdmin(ctx, checkAccount[0].id);
     }
   });
 };
