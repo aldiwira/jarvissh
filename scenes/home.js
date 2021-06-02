@@ -175,7 +175,9 @@ home.command('exec', (ctx) => {
 //   await ctx.reply('Good bye');
 // });
 
-home.command('logout', (ctx) => {ctx.reply('Good Bye')});
+home.command('logout', (ctx) => {
+  ctx.reply('Good Bye');
+});
 
 // Server Execution Command
 require('./server')(home);
