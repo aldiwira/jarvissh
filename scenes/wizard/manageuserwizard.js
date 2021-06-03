@@ -5,6 +5,7 @@ const { Composer, Markup } = require('telegraf');
 
 const { knex, cruder, tableName } = require('../../db');
 const sceneID = require('../../scenesID.json');
+const {sayGreetings} = require("../../helper/greetings");
 
 // Start: Wizard management for deleter user
 
@@ -68,6 +69,13 @@ const doneMarkup = Markup.inlineKeyboard([
 ]).extra();
 
 const AccessHandler = new Composer();
+
+const sendNotif = async (ctx, idUser, message) => {
+  await cruder.find(tableName.users, { id: idUser }).then(v => {
+    ctx.telegram.sendMessage(v[0].telegram_id, `${sayGreetings()} ${v[0].username}, ${message}` );
+  });
+};
+
 // menggunakan regex expression agar query terdeteksi
 AccessHandler.action(/admin/, async (ctx) => {
   const queryData = ctx.callbackQuery.data;
@@ -77,12 +85,14 @@ AccessHandler.action(/admin/, async (ctx) => {
     await AccountChanger({ id }, { isAdmin: 0 }).then((v) => {
       if (v) {
         ctx.reply('Berhasil menghapus akses admin', doneMarkup);
+        sendNotif(ctx, id, "Akses admin chat bot anda dihapus");
       }
     });
   } else if (action === 'set') {
     await AccountChanger({ id }, { isAdmin: 1 }).then((v) => {
       if (v) {
         ctx.reply('Berhasil memberikan akses admin', doneMarkup);
+        sendNotif(ctx, id, "Anda sekarang sudah menjadi admin chat bot");
       }
     });
   }
@@ -97,12 +107,14 @@ AccessHandler.action(/access/, async (ctx) => {
     await AccountChanger({ id }, { isAllowed: 0 }).then((v) => {
       if (v) {
         ctx.reply('Berhasil menghapus akses bot', doneMarkup);
+        sendNotif(ctx, id, "Akses untuk menggunakan bot dihapus");
       }
     });
   } else if (action === 'set') {
     await AccountChanger({ id }, { isAllowed: 1 }).then((v) => {
       if (v) {
         ctx.reply('Berhasil memberikan akses bot', doneMarkup);
+        sendNotif(ctx, id, "Sudah mempunyai akses untuk menggunakan bot");
       }
     });
   }

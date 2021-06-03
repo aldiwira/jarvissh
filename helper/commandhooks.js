@@ -10,13 +10,13 @@ const commandget = (scene) => {
     case 'root':
       return commandsReq.root_scenes;
     default:
-      return [];
+      return commandsReq.root_scenes;
   }
 };
 
 const setCommands = (telegram, scene) => {
   telegram.setMyCommands(commandget(scene));
-  console.log('finish command set');
+  console.log(`finish ${scene} command set`);
 };
 
 module.exports = { setCommands };
