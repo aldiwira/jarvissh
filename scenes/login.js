@@ -73,7 +73,6 @@ module.exports = (bot) => {
         ? msgtemp.accountAllowed
         : msgtemp.accountNotAllowed;
       ctx.reply(`${ctx.from.first_name}, ${msgtemp.alreadyRegister}, ${stat}`);
-      notifAdmin(ctx, checkAccount[0].id);
     }
   });
 };
