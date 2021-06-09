@@ -97,7 +97,7 @@ home.command('subscribe_me', async (ctx) => {
     await execSubs(userId).then((v) => {
       if (v) {
         ctx.reply(
-          `Terima kasih, ${v.username} akan menerima notifikasi dari server setiap 30 Menit.`,
+          `Terima kasih, ${ctx.chat.first_name} akan menerima notifikasi dari server setiap 30 Menit.`,
         );
       } else {
         ctx.reply(`Mohon maaf, Anda sudah mengikuti bot pemberitahuan.`);

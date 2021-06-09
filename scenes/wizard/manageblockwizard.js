@@ -67,7 +67,7 @@ delBlockHandler.on('message', async (ctx) => {
     .delete(tableName.blacklist, { id: checkCommand[0].id })
     .then((v) => {
       if (v) {
-        ctx.reply(`Kata perintah ${command} berhasil di blokir`, backMarkup);
+        ctx.reply(`Kata perintah ${command} berhasil di hapus`, backMarkup);
       }
     });
   } else {
