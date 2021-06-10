@@ -15,18 +15,18 @@ const telegram = new Telegram(process.env.BOT_TOKEN);
 // Some Middleware
 bot.use(session({ makeKey: (ctx) => `${ctx.from.id}:${ctx.chat.id}` }));
 bot.use(logger);
-bot.use(async (ctx, next) => {
-  /* eslint-disable no-underscore-dangle */
-  const sceneName =
-    ctx.session.__scenes !== undefined ? ctx.session.__scenes.current : 'root';
-  await setCommands(ctx.telegram, sceneName);
-  next();
-});
+// bot.use(async (ctx, next) => {
+//   /* eslint-disable no-underscore-dangle */
+//   const sceneName =
+//     ctx.session.__scenes !== undefined ? ctx.session.__scenes.current : 'root';
+//   await setCommands(ctx.telegram, sceneName);
+//   next();
+// });
 
-bot.catch((err, ctx, next) => {
-  ctx.reply(`Ooops, encountered an error for ${ctx.updateType}`, err.stack);
-  next();
-});
+// bot.catch((err, ctx, next) => {
+//   ctx.reply(`Ooops, encountered an error for ${ctx.updateType}`, err.stack);
+//   next();
+// });
 
 // instance stage
 const stage = new Stage(ScenesLists);

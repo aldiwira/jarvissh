@@ -172,11 +172,14 @@ home.command('exec', (ctx) => {
 
 // logout
 home.leave(async (ctx) => {
+//   await ctx.reply('Berhasil melakukan log out');
+//   await ctx.reply(messageTemp.welcomeLogin);
+});
+
+home.command('logout', async (ctx) => {
   await ctx.reply('Berhasil melakukan log out');
   await ctx.reply(messageTemp.welcomeLogin);
 });
-
-home.command('logout', leave());
 
 // Server Execution Command
 require('./server')(home);
