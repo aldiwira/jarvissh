@@ -11,7 +11,27 @@ const { setCommands } = require('../helper/commandhooks');
 
 const { leave } = Stage;
 
+const getUserData = (id) =>
+  cruder.find(tableName.users, {
+    telegram_id: id,
+  });
+
 const home = new Scenes(scenesID.home_scene);
+
+home.enterMiddleware();
+
+home.use(async (ctx, next) => {
+  await setCommands(ctx.telegram, scenesID.home_scene);
+  const { users } = ctx.session;
+  const data = await getUserData(users.telegram_id);
+  if (data[0].isAllowed) {
+    next();
+  } else {
+    ctx.reply('anda tidak sudah tidak memiliki akses untuk bot ini');
+    ctx.session.users = null;
+    ctx.scene.leave();
+  }
+});
 
 const greetUsers = (ctx) => {
   const { users } = ctx.session;
@@ -25,7 +45,11 @@ const greetUsers = (ctx) => {
 // For bot enter stage and re enter
 const greetInit = async (ctx) => {
   await greetUsers(ctx);
-  await ctx.reply(messageTemp.welcomeHome, {
+  const messageHome =
+    ctx.chat.type === 'private'
+      ? messageTemp.welcomeHomePersonal
+      : messageTemp.welcomeHomeGroup;
+  await ctx.reply(messageHome, {
     reply_markup: serverMarkup,
   });
   await setCommands(ctx.telegram, scenesID.home_scene);
@@ -36,8 +60,11 @@ home.help(greetInit);
 
 home.command('manage', async (ctx) => {
   const { users } = ctx.session;
-  if (users.isAdmin) {
+  const data = await getUserData(users.telegram_id);
+
+  if (data[0].isAdmin) {
     ctx.scene.enter(scenesID.management_scene);
+    await setCommands(ctx.telegram, scenesID.management_scene);
   } else {
     ctx.reply(`Untuk ${users.username}, Anda tidak diizinkan untuk masuk`);
   }
@@ -171,14 +198,13 @@ home.command('exec', (ctx) => {
 });
 
 // logout
-home.leave(async (ctx) => {
-//   await ctx.reply('Berhasil melakukan log out');
-//   await ctx.reply(messageTemp.welcomeLogin);
-});
 
 home.command('logout', async (ctx) => {
   await ctx.reply('Berhasil melakukan log out');
   await ctx.reply(messageTemp.welcomeLogin);
+  ctx.session.users = null;
+  await setCommands(ctx.telegram, 'root');
+  await ctx.scene.leave();
 });
 
 // Server Execution Command

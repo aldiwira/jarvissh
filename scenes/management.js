@@ -90,6 +90,7 @@ management.command('blocked_add', async (ctx) =>
 management.command('leave', async (ctx) => {
   await ctx.reply('Terima Kasih');
   await ctx.scene.enter(scenesID.home_scene);
+  await setCommands(ctx.telegram, scenesID.home_scene);
 });
 
 module.exports = management;

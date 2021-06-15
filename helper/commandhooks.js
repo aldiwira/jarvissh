@@ -10,7 +10,7 @@ const commandget = (scene) => {
     case 'root':
       return commandsReq.root_scenes;
     default:
-      return commandsReq.root_scenes;
+      return [];
   }
 };
 
