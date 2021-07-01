@@ -23,14 +23,14 @@ delUserHandler.action('done', async (ctx) => {
 delUserHandler.hears(/[0-9]/gi, async (ctx) => {
   const { text } = ctx.message;
   const checkUser = await cruder.find(tableName.users, { id: text });
-  const usernameData = checkUser.username;
+  const usernameData = checkUser[0].username;
 
   if (checkUser.length !== 0) {
     await knex(tableName.users)
       .where('id', text)
       .del()
       .then(() => {
-        ctx.reply(`Pengguna sudah dihapus`, doneMarkup);
+        ctx.reply(`Pengguna ${usernameData} sudah dihapus`, doneMarkup);
       });
   } else {
     ctx.reply('User yang anda cari tidak ditemukan', doneMarkup);
@@ -80,6 +80,11 @@ const sendNotif = async (ctx, idUser, message) => {
   });
 };
 
+AccessHandler.action('done', async (ctx) => {
+  await ctx.answerCbQuery();
+  return await ctx.scene.enter(sceneID.management_scene);
+});
+
 // menggunakan regex expression agar query terdeteksi
 AccessHandler.action(/admin/, async (ctx) => {
   const queryData = ctx.callbackQuery.data;
@@ -125,11 +130,6 @@ AccessHandler.action(/access/, async (ctx) => {
   await ctx.answerCbQuery();
 });
 
-AccessHandler.action('done', async (ctx) => {
-  await ctx.answerCbQuery();
-  return await ctx.scene.enter(sceneID.management_scene);
-});
-
 const ManageAccsessUserWizard = new WizardScene(
   sceneID.management_access_user_wizard,
   async (ctx) => {
@@ -146,7 +146,7 @@ const ManageAccsessUserWizard = new WizardScene(
     });
     ctx.reply(replyMsg);
 
-    await ctx.reply('Masukkan id pengguna untuk mengatur akses');
+    await ctx.reply('Masukkan id pengguna untuk mengatur akses', doneMarkup);
     return await ctx.wizard.next();
   },
   async (ctx) => {

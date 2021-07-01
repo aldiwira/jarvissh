@@ -116,4 +116,5 @@ dist
 .pnp.*
 
 *.sqlite3
-log-file.txt
+log-file*
+

@@ -18,7 +18,7 @@ management.use((ctx, next) => {
 const greeting = async (ctx) => {
   await setCommands(ctx.telegram, scenesID.management_scene);
   await ctx.reply(
-    `Dear ${ctx.session.users.username}, ${messageTemp.managementGretting}`,
+    `Halo ${ctx.session.users.username}, ${messageTemp.managementGretting}`,
   );
 };
 
